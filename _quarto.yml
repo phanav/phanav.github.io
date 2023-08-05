@@ -13,7 +13,7 @@ website:
         href: https://www.linkedin.com/in/phanav
 format:
   html:
-    theme: cosmo
+    theme: sandstone
     css: styles.css
 
 execute:
