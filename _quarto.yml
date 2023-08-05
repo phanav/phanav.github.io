@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Phan Anh's website"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/phanav
+      - icon: linkedin
+        href: https://www.linkedin.com/in/phanav
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+execute:
+  freeze: auto
+
