@@ -1,1 +1,1 @@
-Sitemap: https://phanav.github.io/sitemap.xml
+Sitemap: https://github.com/phanav/phanav.github.io/sitemap.xml
