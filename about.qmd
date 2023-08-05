@@ -1,8 +1,8 @@
 ---
 title: "About"
-image: profile.jpg
+image: profile_photo.jpg
 about:
-  template: jolla
+  template: solana
   links:
     - icon: linkedin
       text: LinkedIn
