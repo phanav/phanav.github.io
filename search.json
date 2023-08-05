@@ -4,7 +4,7 @@
     "href": "posts/constrained_optimization/2023_07_22_constrained_optimization.html",
     "title": "Constrained optimization and Karush Kuhn Tucker condition (KKT condition)",
     "section": "",
-    "text": "toc:true\nbadges: true\nauthor: Phan Anh\ncategories: [optimization,]\nSuppose we are minimizing a function \\(f(x)\\), with contour line shown in the illustration below. These lines denotes points with the same function value. In the mountain landscape analogy, these line are projection of the altitude on a flat surface such as a map.\nThe shaded gray region represents a constraint that the solution must satisfy: \\(g_i(x) &lt; 0\\).\nThe KKT conditions allows us to narrow down the number of potential optimum candidates. Among these conditions, the most interesting one is complementary slackness. This condition states that, either the constraint have no impact on the original optimum, or the optimum lies on the boundary of the constraint.\nThis post aims to explain the intuition behind teh KKT conditions. We will start by defining the problem and stating the conditions in a somewhat theoretical manner. Then, we will come back to the illustration and see why the conditions make sense.\nImage from https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions"
+    "text": "Suppose we are minimizing a function \\(f(x)\\), with contour line shown in the illustration below. These lines denotes points with the same function value. In the mountain landscape analogy, these line are projection of the altitude on a flat surface such as a map.\nThe shaded gray region represents a constraint that the solution must satisfy: \\(g_i(x) &lt; 0\\).\nThe KKT conditions allows us to narrow down the number of potential optimum candidates. Among these conditions, the most interesting one is complementary slackness. This condition states that, either the constraint have no impact on the original optimum, or the optimum lies on the boundary of the constraint.\nThis post aims to explain the intuition behind teh KKT conditions. We will start by defining the problem and stating the conditions in a somewhat theoretical manner. Then, we will come back to the illustration and see why the conditions make sense.\nImage from https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions"
   },
   {
     "objectID": "posts/constrained_optimization/2023_07_22_constrained_optimization.html#constrained-optimization",
@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Phan Anh’s blog",
     "section": "",
-    "text": "Constrained optimization and Karush Kuhn Tucker condition (KKT condition)\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n  \n\n\n\n\nIntuition for a few common probability ditributions\n\n\n\n\n\n\n\nprobability\n\n\nstatistics\n\n\n\n\n\n\n\n\n\n\n\nMay 16, 2022\n\n\nPhan Anh VU\n\n\n\n\n\n\nNo matching items"
+    "text": "Constrained optimization and Karush Kuhn Tucker condition (KKT condition)\n\n\n\n\n\n\n\noptimization\n\n\n\n\n\n\n\n\n\n\n\nJul 22, 2023\n\n\nPhan Anh VU\n\n\n\n\n\n\n  \n\n\n\n\nIntuition for a few common probability ditributions\n\n\n\n\n\n\n\nprobability\n\n\nstatistics\n\n\n\n\n\n\n\n\n\n\n\nMay 16, 2022\n\n\nPhan Anh VU\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/probability_distribution/2023_05_16_probability_distribution.html",

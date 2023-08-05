@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Phan Anh VU">
+<meta name="dcterms.date" content="2023-07-22">
 
 <title>Phan Anh’s website - Constrained optimization and Karush Kuhn Tucker condition (KKT condition)</title>
 <style>
@@ -100,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -143,13 +145,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Constrained optimization and Karush Kuhn Tucker condition (KKT condition)</h1>
-                      </div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">optimization</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Phan Anh VU </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 22, 2023</p>
+      </div>
+    </div>
     
       
     </div>
@@ -158,19 +175,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#constrained-optimization" id="toc-constrained-optimization" class="nav-link active" data-scroll-target="#constrained-optimization">Constrained optimization</a></li>
+  <li><a href="#equality-constraint-penalty" id="toc-equality-constraint-penalty" class="nav-link" data-scroll-target="#equality-constraint-penalty">Equality constraint penalty</a></li>
+  <li><a href="#minus-infinity-minimum" id="toc-minus-infinity-minimum" class="nav-link" data-scroll-target="#minus-infinity-minimum">Minus infinity minimum</a></li>
+  <li><a href="#inequality-constraint-penalty" id="toc-inequality-constraint-penalty" class="nav-link" data-scroll-target="#inequality-constraint-penalty">Inequality constraint penalty</a></li>
+  <li><a href="#optimality-necessary-conditions" id="toc-optimality-necessary-conditions" class="nav-link" data-scroll-target="#optimality-necessary-conditions">Optimality necessary conditions</a></li>
+  <li><a href="#complementary-slackness-illustration" id="toc-complementary-slackness-illustration" class="nav-link" data-scroll-target="#complementary-slackness-illustration">Complementary slackness illustration</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<ul>
-<li>toc:true</li>
-<li>badges: true</li>
-<li>author: Phan Anh</li>
-<li>categories: [optimization,]</li>
-</ul>
 <p>Suppose we are minimizing a function <span class="math inline">\(f(x)\)</span>, with contour line shown in the illustration below. These lines denotes points with the same function value. In the mountain landscape analogy, these line are projection of the altitude on a flat surface such as a map.</p>
 <p>The shaded gray region represents a constraint that the solution must satisfy: <span class="math inline">\(g_i(x) &lt; 0\)</span>.</p>
 <p>The KKT conditions allows us to narrow down the number of potential optimum candidates. Among these conditions, the most interesting one is complementary slackness. This condition states that, either the constraint have no impact on the original optimum, or the optimum lies on the boundary of the constraint.</p>
