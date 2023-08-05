@@ -13,7 +13,9 @@ website:
         href: https://www.linkedin.com/in/phanav
 format:
   html:
-    theme: sandstone
+    theme:
+        light: sandstone
+        dark: darkly
     css: styles.css
 
 execute:
