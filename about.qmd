@@ -17,11 +17,12 @@ My name is Phan Anh Vu (Vũ).
 
 I have studied Mathematics, Computer Science, Economics and Finance. 
 I took a Software Engineer position for a few years. 
-Most recently, I mainly work on Machine Learning.
-More specifically, the research topic for my PhD is the intersection of probabilistic machine learning and hardware design.
-The goal is to accelerate uncertainty quantification algorithms with specialized and emerging circuits, both analog and digital.
+Most recently, I mainly work on Machine Learning. 
+More specifically, the research topic for my PhD is the intersection of probabilistic machine learning and chip design. 
+The goal is to accelerate uncertainty quantification algorithms with specialized and emerging hardware, both analog and digital. 
+Here are a few samples from my long list of hobbies: Hiphop dance, tennis, judo, boxing, piano, guitar.
 
-Here is a probably outdated Curriculum Vitae
+Below is a probably outdated Curriculum Vitae
 
 [https://www.overleaf.com/read/ttktcnyrwtjv](https://www.overleaf.com/read/ttktcnyrwtjv)
 
