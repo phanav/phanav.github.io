@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/hardware/memristor_hadamard_multiplier.html",
       "/posts/constrained_optimization/2023_07_22_constrained_optimization.html",
       "/posts/probability_distribution/2023_05_16_probability_distribution.html"
     ]
