@@ -1,10 +1,17 @@
 [
   {
-    "objectID": "posts/hardware/memristor_hadamard_multiplier.html",
-    "href": "posts/hardware/memristor_hadamard_multiplier.html",
-    "title": "Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks",
+    "objectID": "instructions.html",
+    "href": "instructions.html",
+    "title": "Quarto Blog Publishing Workflow",
     "section": "",
-    "text": "Using an ensemble of neural networks is an effective means of quantifying the uncertainty of an output prediction. However, the memory cost of storing a large ensemble of neural networks quickly becomes prohibitive and limits their applicability. This paper details a three-stage in-memory computing circuit that performs analog-domain vector-matrix multiplication between an input voltage vector and a rank-1 compressed weight ensemble stored in the conductances of three Memristor arrays. For wide layers (thousands of neurons) and large ensemble sizes (hundreds to thousands of models), this circuit reduces the required number of Memristors by between two and three orders of magnitude relative to a non-compressed ensemble. Similarly, compared to a single neural network, the increase in the number of Memristors may be less than two-fold. We report SPICE simulations of the circuit and observe that \\(75\\%\\) of total error does not deviate by more than \\(25\\%\\) of the ideal value. A statistical analysis of the circuit explains these observations and offers insights regarding how the circuit may be improved.\nPaper to be published at International Conference on Rebooting Computing 2024\nhttps://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf"
+    "text": "Quarto Blog Publishing Workflow\nBased on the repository configuration, this blog is built using Quarto. Here is the end-to-end workflow to add a new blog post via a Jupyter Notebook and have it automatically deployed:\n\n1. Create the Post\nQuarto looks for content inside the posts/ directory (as configured in index.qmd). * Create a new folder for your post inside the posts/ directory (e.g., posts/my-new-post/). * Add your Jupyter Notebook (.ipynb file) inside this new directory. * Add YAML Frontmatter: The first cell in your notebook should be a Markdown cell (or Raw cell) containing the YAML frontmatter to define the post’s metadata. It should look something like this: yaml     ---     title: \"Your Post Title\"     author: \"Phan Anh\"     date: \"2024-05-06\"     categories: [machine learning, optimization]     --- Note: Your posts/_metadata.yml automatically applies freeze: true and title-block-banner: true to all posts, so you don’t need to specify those.\n\n\n2. Render locally to the docs folder (Optional)\nYour _quarto.yml specifies output-dir: docs. * You can preview your website locally as you edit the notebook by running: bash     quarto preview * To manually build the static HTML files into the docs/ folder, run: bash     quarto render\n\n\n3. Commit and Push to Trigger Automatic Deployment\nYou have a GitHub Action set up in .github/workflows/publish.yml that handles the automatic deployment. * Once you are happy with the notebook, simply commit your changes (the new folder and .ipynb file in posts/) to the main branch. * Push to GitHub: bash     git add posts/my-new-post/     git commit -m \"Add new blog post about X\"     git push origin main * What happens next? Pushing to the main branch automatically triggers the Quarto Publish GitHub Action. The action will spin up an Ubuntu runner, install Quarto, render your site, and then push the final HTML output directly to the gh-pages branch on your repository. GitHub Pages will then automatically serve the updated website."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "My name is Phan Anh Vu (Vũ).\nI have studied Mathematics, Computer Science, Economics and Finance. I took a Software Engineer position for a few years. Most recently, I mainly work on Machine Learning. More specifically, the research topic for my PhD is the intersection of probabilistic machine learning and chip design. The goal is to accelerate uncertainty quantification algorithms with specialized and emerging hardware, both analog and digital. Here are a few samples from my long list of hobbies: Hiphop dance, tennis, judo, boxing, piano, guitar.\nBelow is a probably outdated Curriculum Vitae\nhttps://www.overleaf.com/read/ttktcnyrwtjv"
   },
   {
     "objectID": "posts/probability_distribution/2023_05_16_probability_distribution.html",
@@ -54,20 +61,6 @@
     "title": "Intuition for a few common probability ditributions",
     "section": "Sum of random variables",
     "text": "Sum of random variables\nThis final section is small digression. Here is an intuitive explanation for the Central Limit Theorem: with large enough sample size, the sum (or mean) of independent samples drawn from an identical distribution of any kind, including non Gaussian, will approach a Gaussian shape.\nLet us look at a simple case of summing 2 uniform random variables. For a more concrete example, we will examine the sum of 2 fair dices. The theoretical result is:\n2 = 1 + 1 =&gt; probability = 1 / 36\n3 = 2 + 1 =&gt; probability = 2 / 36\n4 = 1 + 3 = 2 + 2 =&gt; probability = 3 / 36\n5 = 1 + 4 = 2 + 3 =&gt; probability = 4 / 36\n6 = 1 + 5 = 2 + 4 = 3 + 3 =&gt; probability = 5 / 36\n7 = 6 + 1 = 2 + 5 = 3 + 4 =&gt; probability = 6 / 36\n8 = 2 + 6 = 3 + 5 = 4 + 4 =&gt; probability = 5 / 36\n9 = 6 + 3 = 5 + 4 =&gt; probability = 4 / 36\n10 = 6 + 4 = 5 + 5 =&gt; probability = 3 / 36\n11 = 5 + 6 =&gt; probability = 2 / 36\n12 = 6 + 6 =&gt; probability = 1 / 36\n\nproba_sum2dices = np.concatenate([np.arange(1, 7), np.arange(5, 0, -1)]) / 36\n\nfig = plt.figure(figsize=(6, 6))\nplt.bar(np.arange(2, 13), proba_sum2dices )\nplt.ylabel(\"probability\")\nplt.xlabel(\"sum of 2 dices\")\n\nText(0.5, 0, 'sum of 2 dices')\n\n\n\n\n\n\n\n\n\nWe can already notice the bell shaped curve, even though the initial uniform distribution is very different from a gausian distribution. When summing 2 dices, number 7 has the widest range of possible combinations. Thus it is the most likely values. The probability decreases symmetrically, when we move away from the mode to the 2 extremes.\nNext time when you question why the Central Limit Theorem holds in practice, perhaps it may help to think about the sum of 2 dices."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "My name is Phan Anh Vu (Vũ).\nI have studied Mathematics, Computer Science, Economics and Finance. I took a Software Engineer position for a few years. Most recently, I mainly work on Machine Learning. More specifically, the research topic for my PhD is the intersection of probabilistic machine learning and chip design. The goal is to accelerate uncertainty quantification algorithms with specialized and emerging hardware, both analog and digital. Here are a few samples from my long list of hobbies: Hiphop dance, tennis, judo, boxing, piano, guitar.\nBelow is a probably outdated Curriculum Vitae\nhttps://www.overleaf.com/read/ttktcnyrwtjv"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Phan Anh’s blog",
-    "section": "",
-    "text": "Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks\n\n\n\n\n\n\nhardware\n\n\n\n\n\n\n\n\n\nDec 2, 2024\n\n\nPhan Anh VU\n\n\n\n\n\n\n\n\n\n\n\n\nConstrained optimization and Karush Kuhn Tucker condition (KKT condition)\n\n\n\n\n\n\noptimization\n\n\n\n\n\n\n\n\n\nJul 22, 2023\n\n\nPhan Anh VU\n\n\n\n\n\n\n\n\n\n\n\n\nIntuition for a few common probability ditributions\n\n\n\n\n\n\nprobability\n\n\nstatistics\n\n\n\n\n\n\n\n\n\nMay 16, 2022\n\n\nPhan Anh VU\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/constrained_optimization/2023_07_22_constrained_optimization.html",
@@ -124,5 +117,19 @@
     "title": "Constrained optimization and Karush Kuhn Tucker condition (KKT condition)",
     "section": "Conclusion",
     "text": "Conclusion\nThe KKT conditions helps us to solve for the optimum of a constrained optimization problem. Among these conditions, the most essential condition is complementary slackness.\nComplementary slackness may appear confusing at first, but we have seen with the illustrations that it is actually very intuitive. As optimization is about finding the extreme, we must go to the extreme of the feasible region to find the optimum. If we fail to find the optimum there, then we can ignore this constraint, because the original unconstrained optimum is unaffected by the constraint.\nTo sum up the intuition behind complementary slackness, let’s consider the diving analogy again. If I am trying to dive as deep as possible into the ocean, then I am minimizing my negative altitude below the sea level.\nIf my oxygen tank only allows me to dive 100 meters deep, then the constraint is \\[ altitude \\leq -100 \\] My minimum altitude is precisely at the boundary of what is feasible, or 100 meters deep: \\[ \\min (altitude) = -100 \\]\nMeanwhile, if the seabed where I am diving is only 5 meters deep, then the oxygen capacity constraint of diving 100 meters deep or less becomes irrelevant. The minimum altitude will always be -5. I can even dive without oxygen tank and forget about the constraint."
+  },
+  {
+    "objectID": "posts/hardware/memristor_hadamard_multiplier.html",
+    "href": "posts/hardware/memristor_hadamard_multiplier.html",
+    "title": "Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks",
+    "section": "",
+    "text": "Using an ensemble of neural networks is an effective means of quantifying the uncertainty of an output prediction. However, the memory cost of storing a large ensemble of neural networks quickly becomes prohibitive and limits their applicability. This paper details a three-stage in-memory computing circuit that performs analog-domain vector-matrix multiplication between an input voltage vector and a rank-1 compressed weight ensemble stored in the conductances of three Memristor arrays. For wide layers (thousands of neurons) and large ensemble sizes (hundreds to thousands of models), this circuit reduces the required number of Memristors by between two and three orders of magnitude relative to a non-compressed ensemble. Similarly, compared to a single neural network, the increase in the number of Memristors may be less than two-fold. We report SPICE simulations of the circuit and observe that \\(75\\%\\) of total error does not deviate by more than \\(25\\%\\) of the ideal value. A statistical analysis of the circuit explains these observations and offers insights regarding how the circuit may be improved.\nPaper to be published at International Conference on Rebooting Computing 2024\nhttps://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Phan Anh’s blog",
+    "section": "",
+    "text": "Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks\n\n\n\nhardware\n\n\n\n\n\n\n\n\n\nDec 2, 2024\n\n\nPhan Anh VU\n\n\n\n\n\n\n\n\n\n\n\n\nConstrained optimization and Karush Kuhn Tucker condition (KKT condition)\n\n\n\noptimization\n\n\n\n\n\n\n\n\n\nJul 22, 2023\n\n\nPhan Anh VU\n\n\n\n\n\n\n\n\n\n\n\n\nIntuition for a few common probability ditributions\n\n\n\nprobability\n\nstatistics\n\n\n\n\n\n\n\n\n\nMay 16, 2022\n\n\nPhan Anh VU\n\n\n\n\n\nNo matching items"
   }
 ]

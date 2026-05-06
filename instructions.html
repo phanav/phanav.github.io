@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Phan Anh VU">
-<meta name="dcterms.date" content="2024-12-02">
 
-<title>Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks – Phan Anh’s website</title>
+<title>instructions – Phan Anh's website</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -28,27 +26,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9eb2dcf4296333510909099cc84966dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-e6ec55d50a8571276e9da61ff62941ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-9eb2dcf4296333510909099cc84966dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9eb2dcf4296333510909099cc84966dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-e6ec55d50a8571276e9da61ff62941ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-9eb2dcf4296333510909099cc84966dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,40 +75,11 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -275,11 +244,11 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Phan Anh’s website</span>
     </a>
   </div>
@@ -290,7 +259,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -312,56 +281,35 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">hardware</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Phan Anh VU </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">December 2, 2024</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
 
+<section id="quarto-blog-publishing-workflow" class="level1">
+<h1>Quarto Blog Publishing Workflow</h1>
+<p>Based on the repository configuration, this blog is built using <strong>Quarto</strong>. Here is the end-to-end workflow to add a new blog post via a Jupyter Notebook and have it automatically deployed:</p>
+<section id="create-the-post" class="level3">
+<h3 class="anchored" data-anchor-id="create-the-post">1. Create the Post</h3>
+<p>Quarto looks for content inside the <code>posts/</code> directory (as configured in <code>index.qmd</code>). * <strong>Create a new folder</strong> for your post inside the <code>posts/</code> directory (e.g., <code>posts/my-new-post/</code>). * <strong>Add your Jupyter Notebook</strong> (<code>.ipynb</code> file) inside this new directory. * <strong>Add YAML Frontmatter</strong>: The first cell in your notebook should be a Markdown cell (or Raw cell) containing the YAML frontmatter to define the post’s metadata. It should look something like this: <code>yaml     ---     title: "Your Post Title"     author: "Phan Anh"     date: "2024-05-06"     categories: [machine learning, optimization]     ---</code> <em>Note: Your <code>posts/_metadata.yml</code> automatically applies <code>freeze: true</code> and <code>title-block-banner: true</code> to all posts, so you don’t need to specify those.</em></p>
+</section>
+<section id="render-locally-to-the-docs-folder-optional" class="level3">
+<h3 class="anchored" data-anchor-id="render-locally-to-the-docs-folder-optional">2. Render locally to the <code>docs</code> folder (Optional)</h3>
+<p>Your <code>_quarto.yml</code> specifies <code>output-dir: docs</code>. * You can preview your website locally as you edit the notebook by running: <code>bash     quarto preview</code> * To manually build the static HTML files into the <code>docs/</code> folder, run: <code>bash     quarto render</code></p>
+</section>
+<section id="commit-and-push-to-trigger-automatic-deployment" class="level3">
+<h3 class="anchored" data-anchor-id="commit-and-push-to-trigger-automatic-deployment">3. Commit and Push to Trigger Automatic Deployment</h3>
+<p>You have a GitHub Action set up in <code>.github/workflows/publish.yml</code> that handles the automatic deployment. * Once you are happy with the notebook, simply <strong>commit your changes</strong> (the new folder and <code>.ipynb</code> file in <code>posts/</code>) to the <code>main</code> branch. * <strong>Push to GitHub</strong>: <code>bash     git add posts/my-new-post/     git commit -m "Add new blog post about X"     git push origin main</code> * <strong>What happens next?</strong> Pushing to the <code>main</code> branch automatically triggers the <code>Quarto Publish</code> GitHub Action. The action will spin up an Ubuntu runner, install Quarto, render your site, and then push the final HTML output directly to the <code>gh-pages</code> branch on your repository. GitHub Pages will then automatically serve the updated website.</p>
 
-<p>Using an ensemble of neural networks is an effective means of quantifying the uncertainty of an output prediction. However, the memory cost of storing a large ensemble of neural networks quickly becomes prohibitive and limits their applicability. This paper details a three-stage in-memory computing circuit that performs analog-domain vector-matrix multiplication between an input voltage vector and a rank-1 compressed weight ensemble stored in the conductances of three Memristor arrays. For wide layers (thousands of neurons) and large ensemble sizes (hundreds to thousands of models), this circuit reduces the required number of Memristors by between two and three orders of magnitude relative to a non-compressed ensemble. Similarly, compared to a single neural network, the increase in the number of Memristors may be less than two-fold. We report SPICE simulations of the circuit and observe that <span class="math inline">\(75\%\)</span> of total error does not deviate by more than <span class="math inline">\(25\%\)</span> of the ideal value. A statistical analysis of the circuit explains these observations and offers insights regarding how the circuit may be improved.</p>
-<p>Paper to be published at International Conference on Rebooting Computing 2024</p>
-<p><a href="https://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf">https://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf</a></p>
 
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
