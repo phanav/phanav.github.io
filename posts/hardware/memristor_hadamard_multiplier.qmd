@@ -1,7 +1,7 @@
 ---
 title: 'MemHaM: Memristor Hadamard Multiplier and analog in-memory implementation of Adaptive Low-Rank Ensemble'
-author: Phan Anh
-date: '2026-05-13'
+author: Phan-Anh Vu
+date: '2024-12-16'
 format:
   html:
     toc: true
@@ -15,13 +15,13 @@ citation:
   type: paper-conference
   title: "Compressed vector-matrix multiplication for Memristor-based ensemble neural networks"
   author:
-    - name: "Phan Anh Vu"
+    - name: "Phan-Anh Vu"
     - name: "François Rummens"
     - name: "Marielle Malfante"
     - name: "Bertrand Rivet"
     - name: "Thomas Dalgaty"
   container-title: "International Conference on Rebooting Computing"
-  available-date: 2025-03-27
+  available-date: 2024-12-16
   
   # Crucial Step: This auto-generates the 'citation_pdf_url' meta tag
   pdf-url: memham.pdf  
@@ -126,15 +126,15 @@ Detail can be found in the appendix at the end of this post.
 
 This rearranged equation maps naturally to a **three-stage pipeline**, where each stage is responsible for one type of operation. Before describing the stages, here is the notation used in the circuit diagrams. The prefix `I` denotes a current and `V` denotes a voltage; for example, $Ix_m$ is the $m$-th component of input vector $\mathbf{x}$ encoded as a current. A superscript $^*$ denotes an analog copy of a signal (e.g., $Ix_m^*$ is a mirrored copy of $Ix_m$). Colors follow a consistent code throughout: blue for data input, violet for Multiplier A output, green for Crossbar B output, and orange for the final output of Multiplier C.
 
-**Step 1 — Multiplier A:** $\mathbf{a}^{[e]} = \mathbf{x} \odot \mathbf{h}^{[e]}$
+**Step 1 & Multiplier A:** $\mathbf{a}^{[e]} = \mathbf{x} \odot \mathbf{h}^{[e]}$
 
 The input $\mathbf{x}$ is encoded as a vector of currents $Ix_m$, which flow through memristors programmed to the values of $\mathbf{h}^{[e]}$. By Ohm's law, the resulting voltage drops across the memristors give the element-wise product $\mathbf{a}^{[e]}$.
 
-**Step 2 — Crossbar B:** $\mathbf{b}^{[e]} = \mathbf{\hat S} \bullet \mathbf{a}^{[e]}$
+**Step 2 & Crossbar B:** $\mathbf{b}^{[e]} = \mathbf{\hat S} \bullet \mathbf{a}^{[e]}$
 
 The voltages $\mathbf{a}^{[e]}$ from Step 1 are applied to the columns of the crossbar, which is programmed with the shared matrix $\mathbf{\hat S}$. $\mathbf{\hat S}$ is used intead of $\mathbf{S}$ because the values of the shared matrix is encode as conductance or the inverse of resitance. More precisely, for each entry $s_{i,j}$, the encoded value will be $\hat s_{i,j} = 1 / s_{i,j}$. Row currents accumulate to produce the matrix-vector product $\mathbf{b}^{[e]}$.
 
-**Step 3 — Multiplier C:** $\mathbf{y}^{[e]} = \mathbf{b}^{[e]} \odot \mathbf{t}^{[e]}$
+**Step 3 & Multiplier C:** $\mathbf{y}^{[e]} = \mathbf{b}^{[e]} \odot \mathbf{t}^{[e]}$
 
 The currents $\mathbf{b}^{[e]}$ from Step 2 flow through memristors programmed to $\mathbf{t}^{[e]}$, and the resulting voltage drops give the final member output $\mathbf{y}^{[e]}$.
 
@@ -188,12 +188,10 @@ The internal design of each block remains the same as in the rank-1 case; only t
 
 ![Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines $Vl^{[e,r]}$ are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.](img/memham/multiplierc.png)
 
+
 #### Usage procedure pseudocode
 
-<div style="padding: 20px; border: 1px solid #cccccc; border-left: 8px solid #455A64; background-color: #fcfcfc; line-height: 1.6;">
-
 **Algorithm: Usage Procedure for Memristor Hadamard Multiplier**
-
 ---
 
 **For each ensemble member $e = 1, \dots, E$:**
@@ -210,7 +208,8 @@ The internal design of each block remains the same as in the rank-1 case; only t
 3.  **Reset:**
     Reset the Accumulator to $0$ before proceeding to the next ensemble member.
 
-</div>
+---
+
 
 ### Experiment: Circuit simulation
 
@@ -219,40 +218,40 @@ The internal design of each block remains the same as in the rank-1 case; only t
 We validate the circuit with Monte Carlo SPICE simulations in a 130nm CMOS technology, using 1.2V logic transistors and 1.8V selector transistors for the memristors. A single circuit instance ($M = N = E = 16$, so all three blocks are $16 \times 16$ matrices) is simulated over 32 independent runs.
 
 - **Input currents** $Ix$: sampled uniformly between 50 nA and 150 nA, then held constant across all runs.
-- **Memristor resistances** in all three stages: sampled uniformly between 500 kΩ and 1.5 MΩ. This range keeps voltage drops across individual memristors at a few hundred mV — the threshold beyond which unintended programming can occur.
+- **Memristor resistances** in all three stages: sampled uniformly between 500 kΩ and 1.5 MΩ. This range keeps voltage drops across individual memristors at a few hundred mV, the threshold beyond which unintended programming can occur.
 - Crossbar B output currents are scaled down by 10× using the transistor width ratio of the current mirror, so that resistance ranges remain consistent across all three stages.
 - Op-Amps use an ideal model with gain 100; current mirrors use a 2-level cascoded topology to minimize copying error.
 - Each selector pulse width is 3 μs (rise/fall 1 μs), giving a total of **5 μs per ensemble member**.
 
 #### Simulation result
 
-The waveform below confirms basic circuit functionality. As selector lines $Vl^{[e]}$ are pulsed one by one, the first output component $Vy_1^{[e]}$ takes a distinct value for each ensemble member — reflecting the different resistance values programmed for each member.
+The waveform below confirms basic circuit functionality. As selector lines $Vl^{[e]}$ are pulsed one by one, the first output component $Vy_1^{[e]}$ takes a distinct value for each ensemble member, reflecting the different resistance values programmed for each member.
 
 ![After activating a voltage selector line, we can read out the output voltage signal corresponding to the selected model sample. Note the voltage of the selector line is 1.8V because because this is the nominal voltage of the selector transistors. Top: 16 selector voltage lines $Vl^{[e]}$ as consecutive single pulse signal. A selector line is set to high voltage 1.8V during a sufficient duration. Then it is set to 0, while the next selector line is set to high. Bottom: first component of output vector $Vy^{[e]}_1$ varies depending on the activated selector line. The high voltage 1.2V is the resting level voltage when no computation is currently performed. This high voltage levels matches the rise and fall time while switching the selector lines](img/memham1/waveform.png)
 
 The violin plots below report the error ratio (observed / ideal) at five key circuit nodes, each marginalized over all 32 Monte Carlo runs and all 16 matrix columns or rows.
 
-![Error as ratio of (observed / target) value for essential nodes as violin plots. Ideal implementation will have this error ratio = 1, represented by the horizontal dashed red line. The middle point of each box plot inside each violin plot is the median. The boxes extend to the 1st and 3rd quartiles. The whiskers extend to the most extreme data points not considered outliers. The kernel density estimation (KDE) curve outlines the distribution shape of the data. The color code is the same as in other circuit diagrams (blue for input, violet for output of Multiplier A, green for output of Crossbar B, orange for final output of Multiplier C).](img/memham1/error_violin_plot.png)
+![Error as ratio of (observed / target) value for essential nodes as violin plots. Ideal implementation will have this error ratio = 1, represented by the horizontal dashed red line. The middle point of each box plot inside each violin plot is the median. The boxes extend to the 1st and 3rd quartiles. The whiskers extend to the most extreme data points not considered outliers. The kernel density estimation (KDE) curve outlines the distribution shape of the data. The color code is the same as in other circuit diagrams (blue for input, violet for output of Multiplier A, green for output of Crossbar B, orange for final output of Multiplier C).](img/memham1/error_violin_plot.png){width=50% fig-align="center"}
 
-**Node $Ix^*$ — input mirror:** Error falls mostly within ±20%, though extreme cases can reach ±80%. Current mirrors are the dominant source of error throughout the pipeline, and their imprecision propagates downstream.
+**Node $Ix^*$, input mirror:** Error falls mostly within ±20%, though extreme cases can reach ±80%. Current mirrors are the dominant source of error throughout the pipeline, and their imprecision propagates downstream.
 
-**Node $(Vtop^* - Va^*)$ — crossbar input voltage:** Despite the large spread at $Ix^*$, error variance barely grows at this node. The voltage followers for $Vtop$ and $Va$ each introduce a systematic negative offset of roughly 4–5 mV; since $Va^*$ is *subtracted* from $Vtop^*$, the two offsets mostly cancel, leaving a combined error of approximately 1 mV — negligible against the hundred-millivolt operating voltages.
+**Node $(Vtop^* - Va^*)$, crossbar input voltage:** Despite the large spread at $Ix^*$, error variance barely grows at this node. The voltage followers for $Vtop$ and $Va$ each introduce a systematic negative offset of roughly 4–5 mV; since $Va^*$ is *subtracted* from $Vtop^*$, the two offsets mostly cancel, leaving a combined error of approximately 1 mV, negligible against the hundred-millivolt operating voltages.
 
-**Node $Ib$ — crossbar output current:** Surprisingly, error variance drops dramatically here. Each row output is a dot product summing $M$ terms, and with high-resistance memristors (MΩ range), the variance of each individual term is divided by $s_{n,m}^2$ — a massive attenuation. Formally, when memristor resistances are fixed: $Var[b_n] = \sum_m s_{n,m}^{-2} \, Var[a_m]$. High resistance values thus act as a built-in variance reducer, an elegant side effect of the high-resistance operating point.
+**Node $Ib$, crossbar output current:** Surprisingly, error variance drops dramatically here. Each row output is a dot product summing $M$ terms, and with high-resistance memristors (MΩ range), the variance of each individual term is divided by $s_{n,m}^2$, a massive attenuation. Formally, when memristor resistances are fixed: $Var[b_n] = \sum_m s_{n,m}^{-2} \, Var[a_m]$. High resistance values thus act as a built-in variance reducer, an elegant side effect of the high-resistance operating point.
 
-**Node $Ib^*$ — mirrored crossbar output:** Variance rises again here due to the second current mirror. A small negative bias is also introduced because the 10× down-scaling mirror is imperfect in practice.
+**Node $Ib^*$, mirrored crossbar output:** Variance rises again here due to the second current mirror. A small negative bias is also introduced because the 10× down-scaling mirror is imperfect in practice.
 
-**Node $Vy$ — final output:** Error tracks $Ib^*$ closely, since Multiplier C contributes only a multiplicative factor from its resistance values.
+**Node $Vy$, final output:** Error tracks $Ib^*$ closely, since Multiplier C contributes only a multiplicative factor from its resistance values.
 
-The highest-leverage improvement is a better current mirror design — for example, through higher-order cascoding or regulated-cascode topologies. Beyond that, deliberately pairing low-resistance memristor technologies (such as OxRAM) for Multipliers A and C with high-resistance technologies (such as PCM) for Crossbar B would further exploit the variance-attenuation effect. In the longer term, embracing memristor variability within a Bayesian inference framework — where programming noise becomes an intentional source of stochasticity rather than an error — offers an ambitious but compelling direction. In-depth analysis and discussion can be found in the appendix.
+The highest-leverage improvement is a better current mirror design, for example, through higher-order cascoding or regulated-cascode topologies. Beyond that, deliberately pairing low-resistance memristor technologies (such as OxRAM) for Multipliers A and C with high-resistance technologies (such as PCM) for Crossbar B would further exploit the variance-attenuation effect. In the longer term, embracing memristor variability within a Bayesian inference framework, where programming noise becomes an intentional source of stochasticity rather than an error, offers an ambitious but compelling direction. In-depth analysis and discussion can be found in the appendix.
 
 ## Conclusion
 
-This work introduces the **Memristor Hadamard Multiplier (MemHaM)** — a novel analog in-memory circuit that implements vector-vector element-wise multiplication, the missing primitive needed to run ALoRE on memristor hardware. By chaining two MemHaM blocks with a standard memristor crossbar in a three-stage pipeline, the full rank-1 and low-rank ensemble inference becomes executable entirely in memory, simultaneously achieving **memory efficiency** through low-rank approximation and **energy efficiency** through analog in-memory computation.
+This work introduces the **Memristor Hadamard Multiplier (MemHaM)**, a novel analog in-memory circuit that implements vector-vector element-wise multiplication, the missing primitive needed to run ALoRE on memristor hardware. By chaining two MemHaM blocks with a standard memristor crossbar in a three-stage pipeline, the full rank-1 and low-rank ensemble inference becomes executable entirely in memory, simultaneously achieving **memory efficiency** through low-rank approximation and **energy efficiency** through analog in-memory computation.
 
-Monte Carlo SPICE simulations confirm the circuit's correctness and offer several design insights: current mirrors are the dominant error bottleneck, while the crossbar stage itself acts as a natural variance attenuator thanks to its high-resistance operating point. These findings translate directly into actionable improvements — better current mirror topologies, technology-matched memristors across stages, and ultimately the possibility of leveraging memristor programming noise as a physical source of Bayesian stochasticity.
+Monte Carlo SPICE simulations confirm the circuit's correctness and offer several design insights: current mirrors are the dominant error bottleneck, while the crossbar stage itself acts as a natural variance attenuator thanks to its high-resistance operating point. These findings translate directly into actionable improvements: better current mirror topologies, technology-matched memristors across stages, and ultimately the possibility of leveraging memristor programming noise as a physical source of Bayesian stochasticity.
 
-The natural next steps are fabricating a test chip for realistic energy, area, and latency characterization, and investigating efficient layer-to-layer signal chaining in a full multi-layer network. Each of these would move the hardware-software co-design loop — efficient probabilistic deep learning, running end-to-end in analog in-memory circuits — one step closer to becoming a practical reality.
+The natural next steps are fabricating a test chip for realistic energy, area, and latency characterization, and investigating efficient layer-to-layer signal chaining in a full multi-layer network. With this hardware-software co-design approach, efficient probabilistic deep learning running end-to-end in analog in-memory circuits is one step closer to becoming a practical reality.
 
 ## Appendix
 
