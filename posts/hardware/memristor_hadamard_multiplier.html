@@ -370,12 +370,11 @@ window.Quarto = {
   <li><a href="#analog-in-memory-computing-with-memristor" id="toc-analog-in-memory-computing-with-memristor" class="nav-link" data-scroll-target="#analog-in-memory-computing-with-memristor">Analog in-memory computing with memristor</a></li>
   <li><a href="#memristor-crossbar-array" id="toc-memristor-crossbar-array" class="nav-link" data-scroll-target="#memristor-crossbar-array">Memristor crossbar array</a></li>
   </ul></li>
-  <li><a href="#analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" id="toc-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="nav-link" data-scroll-target="#analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</a>
+  <li><a href="#proposition-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" id="toc-proposition-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="nav-link" data-scroll-target="#proposition-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Proposition: Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</a>
   <ul class="collapse">
-  <li><a href="#circuit-design-for-ensemble-with-rank-1-approximation" id="toc-circuit-design-for-ensemble-with-rank-1-approximation" class="nav-link" data-scroll-target="#circuit-design-for-ensemble-with-rank-1-approximation">Circuit design for Ensemble with rank-1 approximation</a></li>
-  <li><a href="#circuit-design-for-ensemble-with-low-rank-approximation" id="toc-circuit-design-for-ensemble-with-low-rank-approximation" class="nav-link" data-scroll-target="#circuit-design-for-ensemble-with-low-rank-approximation">Circuit design for ensemble with low-rank approximation</a></li>
-  <li><a href="#circuit-simulation" id="toc-circuit-simulation" class="nav-link" data-scroll-target="#circuit-simulation">Circuit simulation</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#method-circuit-design-for-ensemble-with-rank-1-approximation" id="toc-method-circuit-design-for-ensemble-with-rank-1-approximation" class="nav-link" data-scroll-target="#method-circuit-design-for-ensemble-with-rank-1-approximation">Method: Circuit design for Ensemble with rank-1 approximation</a></li>
+  <li><a href="#method-circuit-design-for-ensemble-with-low-rank-approximation" id="toc-method-circuit-design-for-ensemble-with-low-rank-approximation" class="nav-link" data-scroll-target="#method-circuit-design-for-ensemble-with-low-rank-approximation">Method: Circuit design for ensemble with low-rank approximation</a></li>
+  <li><a href="#experiment-circuit-simulation" id="toc-experiment-circuit-simulation" class="nav-link" data-scroll-target="#experiment-circuit-simulation">Experiment: Circuit simulation</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
@@ -393,15 +392,16 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In October 2025, NVIDIA became the first company in history to reach a market capitalization of $5 trillion. The engine powering that rise is the GPU, the dominant hardware for training and running deep learning models. Yet the GPU’s dominance is itself a kind of accident: originally designed for graphics rendering, it happened to excel at exactly the matrix multiplications that lie at the heart of neural networks.</p>
-<p>Sara Hooker coined the term <em>Hardware Lottery</em> <a id="cite_ref-1"></a>[<a href="#ref1">1</a>] to describe this phenomenon: a research idea succeeds partly because it happens to fit the hardware that is available. For decades, Moore’s law delivered continuous performance improvements and allowed algorithm research to proceed independently of hardware concerns. As shown in the figure below, however, that trend ended around 2010.</p>
+<p>In October 2025, NVIDIA became the first company in history to reach a market capitalization of $5 trillion (<a href="https://www.bbc.com/news/articles/cp8e970vn5vo">source</a>). Looking at the stock price chart of the company (<a href="https://w.wiki/GZyk">on Wikimedia</a>), the major increases often conincide with remarkable achievements of deep learning: the release of ChatGPT, or DeepMind’s AlphaGo. This coincidence is hardly surprising, as NVIDIA’s GPU (Graphic Processing Unit) is the dominant hardware on which relies the training and deployment of these models.</p>
+<p>In fact, most algorithmic components behind deep learning, such as backpropagation and deep convolutional neural network, have been discovered in the period from 1960s to 1980s <a id="cite_ref-1"></a>[<a href="#ref1">1</a>]. Meanwhile, the widely recognized success of deep learning came only in the 2010s, due to the availability of appropriate training data and hardware. Sara Hooker coined the term <em>Hardware Lottery</em> <a id="cite_ref-1"></a>[<a href="#ref1">1</a>] to describe this phenomenon: a research idea succeeds partly because it happens to fit the hardware that is available.</p>
+<p>For decades, Moore’s law delivered continuous performance improvements and allowed algorithm research to proceed independently of hardware concerns. As shown in the figure below, however, that trend ended around 2010.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/end_moore_law.png" class="img-fluid figure-img"></p>
 <figcaption>Following Moore’s law and Dennard scaling, microprocessor performance doubles approximately every 2-3 years from 1980-2010. Since then, the improvement pace has slowed down significantly. Image from https://noahgift.github.io/cloud-data-analysis-at-scale/topics/end-of-moores-law.html</figcaption>
 </figure>
 </div>
-<p>Meanwhile, the computation demand of deep learning has continued to grow exponentially, even accelerating. as shown below. The divergence between hardware improvement and algorithmic demand has become dramatic.</p>
+<p>Meanwhile, the computation demand of deep learning has continued to grow exponentially, even accelerating, as shown below. The divergence between hardware improvement and algorithmic demand has become dramatic.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/ai-and-compute-all.png" class="img-fluid figure-img"></p>
@@ -416,7 +416,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>An energy efficient way to multiply an activity vector by a weight matrix is to implement activities as voltages and weights as conductances. Their products, per unit time, are charges which add themselves. This seems a lot more sensible than driving transistors at high power to model the individual bits in the digital representation of a number.</p>
 </blockquote>
-<p>The key enabling device is the <strong>memristor</strong>, a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.</p>
+<p>This type of computation depends on a memory device called <strong>memristor</strong>: a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/memristor.png" class="img-fluid figure-img"></p>
@@ -449,11 +449,11 @@ window.Quarto = {
 <p>Each resistor in the array is a memristor. The conductance <span class="math inline">\(G_{i,j}\)</span> encodes the weight at row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span>. Input values are applied as column voltages <span class="math inline">\(V_j\)</span>, and the output currents <span class="math inline">\(I_i\)</span> accumulate along each row, all in parallel, all without ever moving the weight data to a separate processor.</p>
 </section>
 </section>
-<section id="analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="level2">
-<h2 class="anchored" data-anchor-id="analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</h2>
+<section id="proposition-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="level2">
+<h2 class="anchored" data-anchor-id="proposition-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Proposition: Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</h2>
 <p>Crossbar arrays handle vector-matrix multiplication elegantly, but implementing <strong>ALoRE</strong> (link available soon) on analog hardware requires one additional operation: <strong>element-wise (Hadamard) multiplication</strong> between vectors. No existing memristor scheme supports this natively. This post presents the <strong>Memristor Hadamard Multiplier (MemHaM)</strong>, a novel analog circuit block that fills this gap, and shows how combining it with a standard crossbar array in a three-stage pipeline enables the full ALoRE computation to run in-memory.</p>
-<section id="circuit-design-for-ensemble-with-rank-1-approximation" class="level3">
-<h3 class="anchored" data-anchor-id="circuit-design-for-ensemble-with-rank-1-approximation">Circuit design for Ensemble with rank-1 approximation</h3>
+<section id="method-circuit-design-for-ensemble-with-rank-1-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="method-circuit-design-for-ensemble-with-rank-1-approximation">Method: Circuit design for Ensemble with rank-1 approximation</h3>
 <section id="low-rank-ensemble-of-neural-networks" class="level4">
 <h4 class="anchored" data-anchor-id="low-rank-ensemble-of-neural-networks">Low-rank Ensemble of neural networks</h4>
 <p>For simplicity of notation, this section focuses on dense layers of neural networks, with non-linear activation function omitted. For the same input <span class="math inline">\(\mathbf x\)</span>, an ensemble of size <span class="math inline">\(E\)</span> has multiple parameter matrices <span class="math inline">\(\mathbf{W}^{[e]}\)</span> and outputs <span class="math inline">\(\mathbf{y}^{[e]}\)</span>, one per ensemble member <span class="math inline">\(e\)</span>. Superscript <span class="math inline">\(e \in \{1, \dots, E\}\)</span> corresponds to the ensemble member index:</p>
@@ -525,8 +525,8 @@ window.Quarto = {
 <p>An important efficiency note: since a single-model crossbar already requires voltage regulation on all its columns and rows, <strong>the total Op-Amp count of the full MemHaM circuit equals that of a single-model crossbar</strong>. In contrast, an ensemble circuit of size <span class="math inline">\(E\)</span> would increase the number of Op-Amp by <span class="math inline">\(E\)</span>.</p>
 </section>
 </section>
-<section id="circuit-design-for-ensemble-with-low-rank-approximation" class="level3">
-<h3 class="anchored" data-anchor-id="circuit-design-for-ensemble-with-low-rank-approximation">Circuit design for ensemble with low-rank approximation</h3>
+<section id="method-circuit-design-for-ensemble-with-low-rank-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="method-circuit-design-for-ensemble-with-low-rank-approximation">Method: Circuit design for ensemble with low-rank approximation</h3>
 <p>Extending to approximation rank <span class="math inline">\(R &gt; 1\)</span> is conceptually straightforward. The rank-1 vectors <span class="math inline">\(\mathbf{t}^{[e]}, \mathbf{h}^{[e]}\)</span> are replaced by low-rank matrices <span class="math inline">\(\mathbf{T}^{[e]} \in \mathbb{R}^{N \times R}\)</span> and <span class="math inline">\(\mathbf{H}^{[e]} \in \mathbb{R}^{R \times M}\)</span>, and the computation becomes a sum over the rank dimension (more details in appendix):</p>
 <p><span class="math display">\[\begin{align*}
     \mathbf y^{[e]} = \sum^R_{r=1} [\mathbf S \bullet (\mathbf x \odot \mathbf h^{[e]}_{r,:}) ] \odot \mathbf t^{[e]}_{:,r}
@@ -588,11 +588,10 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="circuit-simulation" class="level3">
-<h3 class="anchored" data-anchor-id="circuit-simulation">Circuit simulation</h3>
-</section>
-<section id="setup" class="level3">
-<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<section id="experiment-circuit-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-circuit-simulation">Experiment: Circuit simulation</h3>
+<section id="setup" class="level4">
+<h4 class="anchored" data-anchor-id="setup">Setup</h4>
 <p>We validate the circuit with Monte Carlo SPICE simulations in a 130nm CMOS technology, using 1.2V logic transistors and 1.8V selector transistors for the memristors. A single circuit instance (<span class="math inline">\(M = N = E = 16\)</span>, so all three blocks are <span class="math inline">\(16 \times 16\)</span> matrices) is simulated over 32 independent runs.</p>
 <ul>
 <li><strong>Input currents</strong> <span class="math inline">\(Ix\)</span>: sampled uniformly between 50 nA and 150 nA, then held constant across all runs.</li>
@@ -601,6 +600,7 @@ window.Quarto = {
 <li>Op-Amps use an ideal model with gain 100; current mirrors use a 2-level cascoded topology to minimize copying error.</li>
 <li>Each selector pulse width is 3 μs (rise/fall 1 μs), giving a total of <strong>5 μs per ensemble member</strong>.</li>
 </ul>
+</section>
 <section id="simulation-result" class="level4">
 <h4 class="anchored" data-anchor-id="simulation-result">Simulation result</h4>
 <p>The waveform below confirms basic circuit functionality. As selector lines <span class="math inline">\(Vl^{[e]}\)</span> are pulsed one by one, the first output component <span class="math inline">\(Vy_1^{[e]}\)</span> takes a distinct value for each ensemble member — reflecting the different resistance values programmed for each member.</p>
