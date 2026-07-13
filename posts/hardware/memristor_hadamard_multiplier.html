@@ -422,7 +422,7 @@ window.Quarto = {
 <p>This type of computation depends on a memory device called <strong>memristor</strong>: a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memristor.png" class="img-fluid figure-img"></p>
+<p><img src="img/memristor.png" class="img-fluid figure-img" style="width:80.0%"></p>
 <figcaption>Left: OxRAM or CBRAM. 2 electrodes sandwhich an oxide layer, containing a conductive filament which can be formed or ruptured. Middle: PCM. 2 electrodes sandwhich a phase change material layer, which can change between amorphous and crystallize state. Right: MRAM. A thin tunnel separate 2 ferromagnetic layers, whose relative magnetic polarization can change and effect conductivity. Different conductance states can store data. Electrodes and conductive elements are coloured in blue, while insulator are coloured in green. Figure from <a id="cite_ref-9"></a>[<a href="#ref9">9</a>]</figcaption>
 </figure>
 </div>
@@ -445,7 +445,7 @@ window.Quarto = {
 \end{align*}\]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/xbar.png" class="img-fluid figure-img"></p>
+<p><img src="img/xbar.png" class="img-fluid figure-img" style="width:70.0%"></p>
 <figcaption>Analog in-memory vector matrix multiplication with crossbar array. The parameter matrix is encoded as device conductance. The input vector is encoded as voltage over each column. The current flowing out of each line in parallel carries the output vector. The transistors next to each resistor are used to select the line and column while programming the resistance value.</figcaption>
 </figure>
 </div>
@@ -507,7 +507,7 @@ window.Quarto = {
 <p><strong>Multiplier A</strong> is an array of <span class="math inline">\(E\)</span> rows × <span class="math inline">\(M\)</span> columns of memristors, where each row stores one member’s vector <span class="math inline">\(\mathbf{h}^{[e]}\)</span>. When selector line <span class="math inline">\(Vl^{[e]}\)</span> is activated, input currents <span class="math inline">\(Ix_m^*\)</span> are routed through that row, producing voltage drops <span class="math inline">\(Va_m = Vtop - Ix_m^* \times h_m^{[e]}\)</span> at each column.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memham1/multiplier1a.png" class="img-fluid figure-img"></p>
+<p><img src="img/memham1/multiplier1a.png" class="img-fluid figure-img" style="width:70.0%"></p>
 <figcaption>Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line Vl will direct the input current to the corresponding row. Vl runs through all transistor gates in a row. There are E rows and M columns in this array.</figcaption>
 </figure>
 </div>
@@ -521,7 +521,7 @@ window.Quarto = {
 <p><strong>Multiplier C</strong> is symmetric to Multiplier A: the mirrored currents <span class="math inline">\(Ib_n^*\)</span> from Crossbar B flow through memristors programmed to <span class="math inline">\(\mathbf{t}^{[e]}\)</span>, and the voltage drops give the final output <span class="math inline">\(Vy_n = Ib_n^* \times t_n^{[e]}\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memham1/multiplier1c.png" class="img-fluid figure-img"></p>
+<p><img src="img/memham1/multiplier1c.png" class="img-fluid figure-img" style="width:70.0%"></p>
 <figcaption>Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines Vl are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.</figcaption>
 </figure>
 </div>
@@ -556,7 +556,7 @@ window.Quarto = {
 <p>The internal design of each block remains the same as in the rank-1 case; only the height of the memristor arrays in Multipliers A and C grows by a factor of <span class="math inline">\(R\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memham/multipliera.png" class="img-fluid figure-img"></p>
+<p><img src="img/memham/multipliera.png" class="img-fluid figure-img" style="width:70.0%"></p>
 <figcaption>Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line <span class="math inline">\(Vl^{[e,r]}\)</span> will direct the input current to the corresponding row. <span class="math inline">\(Vl^{[e,r]}\)</span> runs through all transistor gates in a row. There are R rows and M columns in this matrix, corresponding to 1 segment. There are <span class="math inline">\(E\)</span> segments in total, one per ensemble member.</figcaption>
 </figure>
 </div>
@@ -568,7 +568,7 @@ window.Quarto = {
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memham/multiplierc.png" class="img-fluid figure-img"></p>
+<p><img src="img/memham/multiplierc.png" class="img-fluid figure-img" style="width:70.0%"></p>
 <figcaption>Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines <span class="math inline">\(Vl^{[e,r]}\)</span> are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.</figcaption>
 </figure>
 </div>
