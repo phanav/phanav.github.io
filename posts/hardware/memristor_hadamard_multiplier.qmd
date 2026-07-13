@@ -30,13 +30,17 @@ citation:
 
 ## Introduction
 
-In October 2025, NVIDIA became the first company in history to reach a market capitalization of \$5 trillion. The engine powering that rise is the GPU, the dominant hardware for training and running deep learning models. Yet the GPU's dominance is itself a kind of accident: originally designed for graphics rendering, it happened to excel at exactly the matrix multiplications that lie at the heart of neural networks.
+In October 2025, NVIDIA became the first company in history to reach a market capitalization of \$5 trillion ([source](https://www.bbc.com/news/articles/cp8e970vn5vo)). Looking at the stock price chart of the company ([on Wikimedia](https://w.wiki/GZyk)), the major increases often conincide with remarkable achievements of deep learning: the release of ChatGPT, or DeepMind's AlphaGo. This coincidence is hardly surprising, as NVIDIA’s GPU (Graphic Processing Unit)
+is the dominant hardware on which relies the training and deployment of these models.  
 
-Sara Hooker coined the term *Hardware Lottery* <a id="cite_ref-1"></a>[<a href="#ref1">1</a>] to describe this phenomenon: a research idea succeeds partly because it happens to fit the hardware that is available. For decades, Moore's law delivered continuous performance improvements and allowed algorithm research to proceed independently of hardware concerns. As shown in the figure below, however, that trend ended around 2010.
+In fact, most algorithmic components behind deep learning, such as backpropagation and deep convolutional neural network, have been discovered in the period from
+1960s to 1980s <a id="cite_ref-1"></a>[<a href="#ref1">1</a>]. Meanwhile, the widely recognized success of deep learning came only in the 2010s, due to the availability of appropriate training data and hardware. Sara Hooker coined the term *Hardware Lottery* <a id="cite_ref-1"></a>[<a href="#ref1">1</a>] to describe this phenomenon: a research idea succeeds partly because it happens to fit the hardware that is available. 
+
+For decades, Moore's law delivered continuous performance improvements and allowed algorithm research to proceed independently of hardware concerns. As shown in the figure below, however, that trend ended around 2010.
 
 ![Following Moore's law and Dennard scaling, microprocessor performance doubles approximately every 2-3 years from 1980-2010. Since then, the improvement pace has slowed down significantly. Image from https://noahgift.github.io/cloud-data-analysis-at-scale/topics/end-of-moores-law.html](img/end_moore_law.png)
 
-Meanwhile, the computation demand of deep learning has continued to grow exponentially, even accelerating. as shown below. The divergence between hardware improvement and algorithmic demand has become dramatic.
+Meanwhile, the computation demand of deep learning has continued to grow exponentially, even accelerating, as shown below. The divergence between hardware improvement and algorithmic demand has become dramatic.
 
 ![AI computation demand. Since the start of the deep learning revolution in 2012, computation demand has been growing exponentially, outpacing the progress rate of general purpose microprocessors. The vertical axis is on log scale. Image from https://openai.com/index/ai-and-compute](img/ai-and-compute-all.png)
 
@@ -50,7 +54,7 @@ The dominant cost in digital neural network computation is not the arithmetic it
 
 > An energy efficient way to multiply an activity vector by a weight matrix is to implement activities as voltages and weights as conductances. Their products, per unit time, are charges which add themselves. This seems a lot more sensible than driving transistors at high power to model the individual bits in the digital representation of a number.
 
-The key enabling device is the **memristor**, a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.
+This type of computation depends on a memory device called **memristor**: a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.
 
 ![Left: OxRAM or CBRAM. 2 electrodes sandwhich an oxide layer, containing a conductive filament which can be formed or ruptured. Middle: PCM. 2 electrodes sandwhich a phase change material layer, which can change between amorphous and crystallize state. Right: MRAM. A thin tunnel separate 2 ferromagnetic layers, whose relative magnetic polarization can change and effect conductivity. Different conductance states can store data. Electrodes and conductive elements are coloured in blue, while insulator are coloured in green. Figure from <a id="cite_ref-9"></a>[<a href="#ref9">9</a>]](img/memristor.png)
 
@@ -76,11 +80,11 @@ Memristors arranged into a crossbar array perform matrix-vector multiplication i
 
 Each resistor in the array is a memristor. The conductance $G_{i,j}$ encodes the weight at row $i$, column $j$. Input values are applied as column voltages $V_j$, and the output currents $I_i$ accumulate along each row, all in parallel, all without ever moving the weight data to a separate processor.
 
-## Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor
+## Proposition: Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor
 
 Crossbar arrays handle vector-matrix multiplication elegantly, but implementing **ALoRE** (link available soon) on analog hardware requires one additional operation: **element-wise (Hadamard) multiplication** between vectors. No existing memristor scheme supports this natively. This post presents the **Memristor Hadamard Multiplier (MemHaM)**, a novel analog circuit block that fills this gap, and shows how combining it with a standard crossbar array in a three-stage pipeline enables the full ALoRE computation to run in-memory.
 
-### Circuit design for Ensemble with rank-1 approximation
+### Method: Circuit design for Ensemble with rank-1 approximation
 
 #### Low-rank Ensemble of neural networks
 
@@ -156,7 +160,7 @@ The three stages are summarized in the figure below. Multiplier A and Multiplier
 
 An important efficiency note: since a single-model crossbar already requires voltage regulation on all its columns and rows, **the total Op-Amp count of the full MemHaM circuit equals that of a single-model crossbar**. In contrast, an ensemble circuit of size $E$ would increase the number of Op-Amp by $E$.
 
-### Circuit design for ensemble with low-rank approximation
+### Method: Circuit design for ensemble with low-rank approximation
 
 Extending to approximation rank $R > 1$ is conceptually straightforward. The rank-1 vectors $\mathbf{t}^{[e]}, \mathbf{h}^{[e]}$ are replaced by low-rank matrices $\mathbf{T}^{[e]} \in \mathbb{R}^{N \times R}$ and $\mathbf{H}^{[e]} \in \mathbb{R}^{R \times M}$, and the computation becomes a sum over the rank dimension (more details in appendix):
 
@@ -208,9 +212,9 @@ The internal design of each block remains the same as in the rank-1 case; only t
 
 </div>
 
-### Circuit simulation
+### Experiment: Circuit simulation
 
-### Setup
+#### Setup
 
 We validate the circuit with Monte Carlo SPICE simulations in a 130nm CMOS technology, using 1.2V logic transistors and 1.8V selector transistors for the memristors. A single circuit instance ($M = N = E = 16$, so all three blocks are $16 \times 16$ matrices) is simulated over 32 independent runs.
 
