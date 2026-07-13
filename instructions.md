@@ -13,9 +13,24 @@ Quarto looks for content inside the `posts/` directory (as configured in `index.
     author: "Phan Anh"
     date: "2024-05-06"
     categories: [machine learning, optimization]
+    draft: true # Set to true to hide the post from the website until you're ready
     ---
     ```
     *Note: Your `posts/_metadata.yml` automatically applies `freeze: true` and `title-block-banner: true` to all posts, so you don't need to specify those.*
+
+### 1.5 Halting Publication (Drafts)
+If you want to prepare a post but postpone its publication, simply add `draft: true` to your YAML frontmatter (as shown above).
+*   **What it does:** Quarto will render the page so you can see it locally (via `quarto preview`), but it will **not** appear in your blog's post listing, RSS feeds, or search results.
+*   **When you are ready to publish:** Simply change `draft: true` to `draft: false` (or delete the line entirely), then commit and push to GitHub.
+
+### 1.6 Private Drafts (Hidden from GitHub)
+If you want to work on a post without uploading the `.ipynb` file to GitHub at all (even as a draft), use the `drafts/` folder:
+*   **Setup:** The `drafts/` folder is ignored by `.gitignore`.
+*   **Workflow:**
+    1.  Work on your notebooks inside `drafts/`.
+    2.  Preview locally using `quarto preview drafts/your-post/your-notebook.ipynb`.
+    3.  When ready to publish, move the folder to `posts/`, then commit and push.
+
 
 ### 2. Render locally to the `docs` folder (Optional)
 Your `_quarto.yml` specifies `output-dir: docs`. 
