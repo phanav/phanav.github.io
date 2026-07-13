@@ -56,7 +56,7 @@ The dominant cost in digital neural network computation is not the arithmetic it
 
 This type of computation depends on a memory device called **memristor**: a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.
 
-![Left: OxRAM or CBRAM. 2 electrodes sandwhich an oxide layer, containing a conductive filament which can be formed or ruptured. Middle: PCM. 2 electrodes sandwhich a phase change material layer, which can change between amorphous and crystallize state. Right: MRAM. A thin tunnel separate 2 ferromagnetic layers, whose relative magnetic polarization can change and effect conductivity. Different conductance states can store data. Electrodes and conductive elements are coloured in blue, while insulator are coloured in green. Figure from <a id="cite_ref-9"></a>[<a href="#ref9">9</a>]](img/memristor.png)
+![Left: OxRAM or CBRAM. 2 electrodes sandwhich an oxide layer, containing a conductive filament which can be formed or ruptured. Middle: PCM. 2 electrodes sandwhich a phase change material layer, which can change between amorphous and crystallize state. Right: MRAM. A thin tunnel separate 2 ferromagnetic layers, whose relative magnetic polarization can change and effect conductivity. Different conductance states can store data. Electrodes and conductive elements are coloured in blue, while insulator are coloured in green. Figure from <a id="cite_ref-9"></a>[<a href="#ref9">9</a>]](img/memristor.png){width=80% fig-align="center"}
 
 ### Memristor crossbar array
 
@@ -76,7 +76,7 @@ Memristors arranged into a crossbar array perform matrix-vector multiplication i
     \end{bmatrix}
 \end{align*}
 
-![Analog in-memory vector matrix multiplication with crossbar array. The parameter matrix is encoded as device conductance. The input vector is encoded as voltage over each column. The current flowing out of each line in parallel carries the output vector. The transistors next to each resistor are used to select the line and column while programming the resistance value.](img/xbar.png)
+![Analog in-memory vector matrix multiplication with crossbar array. The parameter matrix is encoded as device conductance. The input vector is encoded as voltage over each column. The current flowing out of each line in parallel carries the output vector. The transistors next to each resistor are used to select the line and column while programming the resistance value.](img/xbar.png){width=70% fig-align="center"}
 
 Each resistor in the array is a memristor. The conductance $G_{i,j}$ encodes the weight at row $i$, column $j$. Input values are applied as column voltages $V_j$, and the output currents $I_i$ accumulate along each row, all in parallel, all without ever moving the weight data to a separate processor.
 
@@ -148,7 +148,7 @@ The three stages are summarized in the figure below. Multiplier A and Multiplier
 
 **Multiplier A** is an array of $E$ rows × $M$ columns of memristors, where each row stores one member's vector $\mathbf{h}^{[e]}$. When selector line $Vl^{[e]}$ is activated, input currents $Ix_m^*$ are routed through that row, producing voltage drops $Va_m = Vtop - Ix_m^* \times h_m^{[e]}$ at each column.
 
-![Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line Vl will direct the input current to the corresponding row. Vl runs through all transistor gates in a row. There are E rows and M columns in this array.](img/memham1/multiplier1a.png)
+![Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line Vl will direct the input current to the corresponding row. Vl runs through all transistor gates in a row. There are E rows and M columns in this array.](img/memham1/multiplier1a.png){width=70% fig-align="center"}
 
 **Crossbar B** receives the Multiplier A output voltages via Op-Amp voltage followers ($Abot$) at the bottom of each column. A reference voltage $Vtop$ is simultaneously held at the top of each row via current conveyors ($Atop$), each of which combines a voltage follower and a current mirror. The voltage difference across each memristor drives a row current $Ib_n = \sum_m s_{n,m}^{-1}(Vtop^* - Va_m^*)$. Notably, unlike a standard crossbar where branch currents converge, here they diverge.
 
@@ -156,7 +156,7 @@ The three stages are summarized in the figure below. Multiplier A and Multiplier
 
 **Multiplier C** is symmetric to Multiplier A: the mirrored currents $Ib_n^*$ from Crossbar B flow through memristors programmed to $\mathbf{t}^{[e]}$, and the voltage drops give the final output $Vy_n = Ib_n^* \times t_n^{[e]}$.
 
-![Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines Vl are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.](img/memham1/multiplier1c.png)
+![Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines Vl are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.](img/memham1/multiplier1c.png){width=70% fig-align="center"}
 
 An important efficiency note: since a single-model crossbar already requires voltage regulation on all its columns and rows, **the total Op-Amp count of the full MemHaM circuit equals that of a single-model crossbar**. In contrast, an ensemble circuit of size $E$ would increase the number of Op-Amp by $E$.
 
@@ -182,11 +182,11 @@ The figures below show the full circuit overview and the detail of one expanded 
 
 The internal design of each block remains the same as in the rank-1 case; only the height of the memristor arrays in Multipliers A and C grows by a factor of $R$.
 
-![Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line $Vl^{[e,r]}$ will direct the input current to the corresponding row. $Vl^{[e,r]}$ runs through all transistor gates in a row. There are R rows and M columns in this matrix, corresponding to 1 segment. There are $E$ segments in total, one per ensemble member.](img/memham/multipliera.png)
+![Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line $Vl^{[e,r]}$ will direct the input current to the corresponding row. $Vl^{[e,r]}$ runs through all transistor gates in a row. There are R rows and M columns in this matrix, corresponding to 1 segment. There are $E$ segments in total, one per ensemble member.](img/memham/multipliera.png){width=70% fig-align="center"}
 
 ![Crossbar B with voltage followers $Abot$ and current conveyors, containing voltage followers $Atop$ coupled with current mirrors. The current conveyors maintain the voltage at Vtop, while mirroring the summing current flowing through each row of the crossbar. The voltage followers regulate the voltage at Va, and act as current sinks. Output voltages from previous stage Multiplier A, colored in violet, serve as input to the voltage followers. The resulting mirrored currents Ib are colored in green. The transistors have not been labelled to simplify the schematic, they serve as selector devices when programming the array.](img/memham/xbarb.png)
 
-![Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines $Vl^{[e,r]}$ are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.](img/memham/multiplierc.png)
+![Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines $Vl^{[e,r]}$ are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.](img/memham/multiplierc.png){width=70% fig-align="center"}
 
 
 #### Usage procedure pseudocode
