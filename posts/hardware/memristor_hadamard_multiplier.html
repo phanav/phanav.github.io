@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Phan Anh VU">
-<meta name="dcterms.date" content="2024-12-02">
+<meta name="author" content="Phan Anh">
+<meta name="dcterms.date" content="2026-05-13">
 
-<title>Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks – Phan Anh’s website</title>
+<title>MemHaM: Memristor Hadamard Multiplier and analog in-memory implementation of Adaptive Low-Rank Ensemble – Phan Anh’s website</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -108,6 +108,20 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../styles.css">
+<meta name="citation_title" content="Compressed vector-matrix multiplication for Memristor-based ensemble neural networks">
+<meta name="citation_author" content="Phan Anh Vu">
+<meta name="citation_author" content="François Rummens">
+<meta name="citation_author" content="Marielle Malfante">
+<meta name="citation_author" content="Bertrand Rivet">
+<meta name="citation_author" content="Thomas Dalgaty">
+<meta name="citation_publication_date" content="2026-05-13">
+<meta name="citation_cover_date" content="2026-05-13">
+<meta name="citation_year" content="2026">
+<meta name="citation_online_date" content="2025-03-27">
+<meta name="citation_fulltext_html_url" content="https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html">
+<meta name="citation_pdf_url" content="memham.pdf">
+<meta name="citation_language" content="en">
+<meta name="citation_conference_title" content="International Conference on Rebooting Computing">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -315,7 +329,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Memristor Hadamard Multiplier, Compressed vector-matrix multiplication for Memristor-based ensemble neural networks</h1>
+      <h1 class="title">MemHaM: Memristor Hadamard Multiplier and analog in-memory implementation of Adaptive Low-Rank Ensemble</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">hardware</div>
               </div>
@@ -328,14 +342,14 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Phan Anh VU </p>
+               <p>Phan Anh </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 2, 2024</p>
+        <p class="date">May 13, 2026</p>
       </div>
     </div>
     
@@ -346,8 +360,28 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#analog-in-memory-computing-with-memristor" id="toc-analog-in-memory-computing-with-memristor" class="nav-link" data-scroll-target="#analog-in-memory-computing-with-memristor">Analog in-memory computing with memristor</a></li>
+  <li><a href="#memristor-crossbar-array" id="toc-memristor-crossbar-array" class="nav-link" data-scroll-target="#memristor-crossbar-array">Memristor crossbar array</a></li>
+  </ul></li>
+  <li><a href="#analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" id="toc-analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="nav-link" data-scroll-target="#analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</a>
+  <ul class="collapse">
+  <li><a href="#circuit-design-for-ensemble-with-rank-1-approximation" id="toc-circuit-design-for-ensemble-with-rank-1-approximation" class="nav-link" data-scroll-target="#circuit-design-for-ensemble-with-rank-1-approximation">Circuit design for Ensemble with rank-1 approximation</a></li>
+  <li><a href="#circuit-design-for-ensemble-with-low-rank-approximation" id="toc-circuit-design-for-ensemble-with-low-rank-approximation" class="nav-link" data-scroll-target="#circuit-design-for-ensemble-with-low-rank-approximation">Circuit design for ensemble with low-rank approximation</a></li>
+  <li><a href="#circuit-simulation" id="toc-circuit-simulation" class="nav-link" data-scroll-target="#circuit-simulation">Circuit simulation</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -357,13 +391,284 @@ window.Quarto = {
 
 
 
-<p>Using an ensemble of neural networks is an effective means of quantifying the uncertainty of an output prediction. However, the memory cost of storing a large ensemble of neural networks quickly becomes prohibitive and limits their applicability. This paper details a three-stage in-memory computing circuit that performs analog-domain vector-matrix multiplication between an input voltage vector and a rank-1 compressed weight ensemble stored in the conductances of three Memristor arrays. For wide layers (thousands of neurons) and large ensemble sizes (hundreds to thousands of models), this circuit reduces the required number of Memristors by between two and three orders of magnitude relative to a non-compressed ensemble. Similarly, compared to a single neural network, the increase in the number of Memristors may be less than two-fold. We report SPICE simulations of the circuit and observe that <span class="math inline">\(75\%\)</span> of total error does not deviate by more than <span class="math inline">\(25\%\)</span> of the ideal value. A statistical analysis of the circuit explains these observations and offers insights regarding how the circuit may be improved.</p>
-<p>Paper to be published at International Conference on Rebooting Computing 2024</p>
-<p><a href="https://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf">https://github.com/phanav/memham/blob/main/reboot_compute_2024_FINAL.pdf</a></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In October 2025, NVIDIA became the first company in history to reach a market capitalization of $5 trillion. The engine powering that rise is the GPU, the dominant hardware for training and running deep learning models. Yet the GPU’s dominance is itself a kind of accident: originally designed for graphics rendering, it happened to excel at exactly the matrix multiplications that lie at the heart of neural networks.</p>
+<p>Sara Hooker coined the term <em>Hardware Lottery</em> <a id="cite_ref-1"></a>[<a href="#ref1">1</a>] to describe this phenomenon: a research idea succeeds partly because it happens to fit the hardware that is available. For decades, Moore’s law delivered continuous performance improvements and allowed algorithm research to proceed independently of hardware concerns. As shown in the figure below, however, that trend ended around 2010.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/end_moore_law.png" class="img-fluid figure-img"></p>
+<figcaption>Following Moore’s law and Dennard scaling, microprocessor performance doubles approximately every 2-3 years from 1980-2010. Since then, the improvement pace has slowed down significantly. Image from https://noahgift.github.io/cloud-data-analysis-at-scale/topics/end-of-moores-law.html</figcaption>
+</figure>
+</div>
+<p>Meanwhile, the computation demand of deep learning has continued to grow exponentially, even accelerating. as shown below. The divergence between hardware improvement and algorithmic demand has become dramatic.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ai-and-compute-all.png" class="img-fluid figure-img"></p>
+<figcaption>AI computation demand. Since the start of the deep learning revolution in 2012, computation demand has been growing exponentially, outpacing the progress rate of general purpose microprocessors. The vertical axis is on log scale. Image from https://openai.com/index/ai-and-compute</figcaption>
+</figure>
+</div>
+<p>This mismatch has spurred a wave of specialized accelerators: GPU, Google’s TPU <a id="cite_ref-4"></a>[<a href="#ref4">4</a>], and chips from startups like Cerebras and Graphcore. These are all digital ASICs, circuits optimized for fast parallel arithmetic. But digital computing is not the only path forward.</p>
+<section id="analog-in-memory-computing-with-memristor" class="level3">
+<h3 class="anchored" data-anchor-id="analog-in-memory-computing-with-memristor">Analog in-memory computing with memristor</h3>
+<p>The dominant cost in digital neural network computation is not the arithmetic itself, it is moving the data. A 16-bit floating-point multiplication costs roughly 1 pJ, but fetching a value from DRAM costs roughly 1 nJ: a <strong>1000× energy gap</strong> <a id="cite_ref-6"></a>[<a href="#ref6">6</a>]. Every time a weight matrix must travel from memory to the processor, the bulk of the energy budget is consumed before a single multiply-accumulate is performed.</p>
+<p><em>Analog in-memory computing</em> eliminates this bottleneck by keeping weights in place and performing computation directly inside the memory array. Geoffrey Hinton described this “mortal computation” vision concisely <a id="cite_ref-5"></a>[<a href="#ref5">5</a>]:</p>
+<blockquote class="blockquote">
+<p>An energy efficient way to multiply an activity vector by a weight matrix is to implement activities as voltages and weights as conductances. Their products, per unit time, are charges which add themselves. This seems a lot more sensible than driving transistors at high power to model the individual bits in the digital representation of a number.</p>
+</blockquote>
+<p>The key enabling device is the <strong>memristor</strong>, a programmable resistor whose conductance state is non-volatile and can directly encode a weight value. Three prominent types are OxRAM/CBRAM (conductive filament devices), PCM (phase change devices), and MRAM (magnetic tunnel junctions). All three share the essential property that their conductance can be tuned to multiple levels and will hold that value without power.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memristor.png" class="img-fluid figure-img"></p>
+<figcaption>Left: OxRAM or CBRAM. 2 electrodes sandwhich an oxide layer, containing a conductive filament which can be formed or ruptured. Middle: PCM. 2 electrodes sandwhich a phase change material layer, which can change between amorphous and crystallize state. Right: MRAM. A thin tunnel separate 2 ferromagnetic layers, whose relative magnetic polarization can change and effect conductivity. Different conductance states can store data. Electrodes and conductive elements are coloured in blue, while insulator are coloured in green. Figure from <a id="cite_ref-9"></a>[<a href="#ref9">9</a>]</figcaption>
+</figure>
+</div>
+</section>
+<section id="memristor-crossbar-array" class="level3">
+<h3 class="anchored" data-anchor-id="memristor-crossbar-array">Memristor crossbar array</h3>
+<p>Memristors arranged into a crossbar array perform matrix-vector multiplication in a remarkably elegant and parallel way, naturally exploiting two fundamental laws of electronics <a id="cite_ref-7"></a>[<a href="#ref7">7</a>], <a id="cite_ref-8"></a>[<a href="#ref8">8</a>]. <strong>Ohm’s law</strong> (V = IR) implements scalar multiplication. According to <strong>Kirchhoff’s current law</strong>, currents summing at a node implements accumulation. Together, they allow a crossbar to compute a full matrix-vector product in a single physical step:</p>
+<p><span class="math display">\[\begin{align*}
+    \begin{bmatrix}
+        G_{1,1} &amp; G_{1,2} \\ G_{2,1} &amp; G_{2,2} \\ G_{3,1} &amp; G_{3,2}
+    \end{bmatrix}
+    \bullet
+    \begin{bmatrix}
+        V_1 \\ V_2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        I_1 \\ I_2 \\ I_3
+    \end{bmatrix}
+\end{align*}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/xbar.png" class="img-fluid figure-img"></p>
+<figcaption>Analog in-memory vector matrix multiplication with crossbar array. The parameter matrix is encoded as device conductance. The input vector is encoded as voltage over each column. The current flowing out of each line in parallel carries the output vector. The transistors next to each resistor are used to select the line and column while programming the resistance value.</figcaption>
+</figure>
+</div>
+<p>Each resistor in the array is a memristor. The conductance <span class="math inline">\(G_{i,j}\)</span> encodes the weight at row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span>. Input values are applied as column voltages <span class="math inline">\(V_j\)</span>, and the output currents <span class="math inline">\(I_i\)</span> accumulate along each row, all in parallel, all without ever moving the weight data to a separate processor.</p>
+</section>
+</section>
+<section id="analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor" class="level2">
+<h2 class="anchored" data-anchor-id="analog-in-memory-circuit-design-for-adaptive-low-rank-ensemble-alore-with-memristor">Analog in-memory circuit design for Adaptive Low-Rank Ensemble (ALoRE) with memristor</h2>
+<p>Crossbar arrays handle vector-matrix multiplication elegantly, but implementing <strong>ALoRE</strong> (link available soon) on analog hardware requires one additional operation: <strong>element-wise (Hadamard) multiplication</strong> between vectors. No existing memristor scheme supports this natively. This post presents the <strong>Memristor Hadamard Multiplier (MemHaM)</strong>, a novel analog circuit block that fills this gap, and shows how combining it with a standard crossbar array in a three-stage pipeline enables the full ALoRE computation to run in-memory.</p>
+<section id="circuit-design-for-ensemble-with-rank-1-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="circuit-design-for-ensemble-with-rank-1-approximation">Circuit design for Ensemble with rank-1 approximation</h3>
+<section id="low-rank-ensemble-of-neural-networks" class="level4">
+<h4 class="anchored" data-anchor-id="low-rank-ensemble-of-neural-networks">Low-rank Ensemble of neural networks</h4>
+<p>For simplicity of notation, this section focuses on dense layers of neural networks, with non-linear activation function omitted. For the same input <span class="math inline">\(\mathbf x\)</span>, an ensemble of size <span class="math inline">\(E\)</span> has multiple parameter matrices <span class="math inline">\(\mathbf{W}^{[e]}\)</span> and outputs <span class="math inline">\(\mathbf{y}^{[e]}\)</span>, one per ensemble member <span class="math inline">\(e\)</span>. Superscript <span class="math inline">\(e \in \{1, \dots, E\}\)</span> corresponds to the ensemble member index:</p>
+<p><span class="math display">\[\begin{align*}
+\mathbf{y}^{[e]} = \mathbf{W}^{[e]} \bullet \mathbf{x}; \quad \forall e.
+\end{align*}\]</span></p>
+<p>To reduce storage space, LoRA-Ensemble <a id="cite_ref-11"></a>[<a href="#ref11">11</a>] approximates the ensemble member parameter matrices with low-rank matrix approximation. More precisely, instead of storing <span class="math inline">\(E\)</span> full size parameter matrices, LoRA-Ensemble only stores a single full size matrix and <span class="math inline">\(E\)</span> pairs of low-rank matrices. For each model in this ensemble, its effective parameter matrix <span class="math inline">\(\mathbf{\tilde W}^{[e]}\in\mathbb{R}^{N \times M}\)</span> is formed by the matrix product between a tall low-rank matrix <span class="math inline">\(\mathbf{T}^{[e]} \in \mathbb{R}^{N \times R}\)</span> and a horizontal low-rank matrix <span class="math inline">\(\mathbf{H}^{[e]} \in \mathbb{R}^{R \times M}\)</span>, followed by an element-wise binary operation with a matrix <span class="math inline">\(\mathbf{S}\in\mathbb{R}^{N \times M}\)</span>, that is shared between all ensemble members. This binary operation, is the combination operator that can be either Hadamard product <span class="math inline">\(\odot\)</span> or addition <span class="math inline">\(+\)</span>. The effective parameter matrix of each ensemble member, for the multiplication and addition combination operator, is:</p>
+<p><span class="math display">\[\begin{align*}
+    \mathbf{y}^{[e]} = \mathbf{\tilde W}^{[e]} \bullet \mathbf{x} = \bigl[ (\mathbf{T}^{[e]} \bullet \mathbf{H}^{[e]}) \odot \mathbf{S} \bigr] \bullet \mathbf{x}; \quad \forall e
+    \\
+    \mathbf{y}^{[e]} = \mathbf{\tilde W}^{[e]} \bullet \mathbf{x} = \bigl[ (\mathbf{T}^{[e]} \bullet \mathbf{H}^{[e]}) + \mathbf{S} \bigr] \bullet \mathbf{x}; \quad \forall e
+\end{align*}\]</span></p>
+</section>
+<section id="rank-1-ensemble-computation" class="level4">
+<h4 class="anchored" data-anchor-id="rank-1-ensemble-computation">Rank-1 ensemble computation</h4>
+<p>Prior to LoRA-Ensemble, BatchEnsemble <a id="cite_ref-10"></a>[<a href="#ref10">10</a>] is the specific case with approximation rank equal to one and multiplication combination operator.</p>
+<p><span class="math display">\[\mathbf{\tilde W}^{[e]} = (\mathbf{t}^{[e]} \otimes \mathbf{h}^{[e]'}) \odot \mathbf{S}\]</span>.</p>
+<p>Here, <span class="math inline">\(\mathbf{S}\)</span> is the shared matrix common to all members, and <span class="math inline">\(\mathbf{t}^{[e]}, \mathbf{h}^{[e]}\)</span> are member-specific rank-1 approximation vectors. <span class="math inline">\(\otimes\)</span> denotes vector outer product, and <span class="math inline">\(\odot\)</span> element-wise matrix multiplication. The output for a given input <span class="math inline">\(\mathbf{x}\)</span> is then:</p>
+<p><span class="math display">\[\begin{align*}
+    \mathbf{y}^{[e]} = \mathbf{W}^{[e]} \bullet \mathbf{x} = [ (\mathbf{t}^{[e]} \otimes \mathbf{h}^{[e]'}) \odot \mathbf{S} ] \bullet \mathbf{x}; \quad \forall e \in \{1, \ldots, E\}.
+\end{align*}\]</span></p>
+<p>Rearranging this expression reduces it to just two elementary operation types, vector-vector element-wise multiplication (<span class="math inline">\(\odot\)</span>) and vector-matrix multiplication (<span class="math inline">\(\bullet\)</span>), which can be mapped directly onto physical hardware:</p>
+<p><span class="math display">\[\begin{equation*}
+    \mathbf{y}^{[e]} = [ \mathbf S \bullet ( \mathbf{x} \odot \mathbf{h}^{[e]} ) ] \odot \mathbf{t}^{[e]}
+\end{equation*}\]</span></p>
+<p>Detail can be found in the appendix at the end of this post.</p>
+</section>
+<section id="mapping-computation-to-hardware" class="level4">
+<h4 class="anchored" data-anchor-id="mapping-computation-to-hardware">Mapping computation to hardware</h4>
+<p>This rearranged equation maps naturally to a <strong>three-stage pipeline</strong>, where each stage is responsible for one type of operation. Before describing the stages, here is the notation used in the circuit diagrams. The prefix <code>I</code> denotes a current and <code>V</code> denotes a voltage; for example, <span class="math inline">\(Ix_m\)</span> is the <span class="math inline">\(m\)</span>-th component of input vector <span class="math inline">\(\mathbf{x}\)</span> encoded as a current. A superscript <span class="math inline">\(^*\)</span> denotes an analog copy of a signal (e.g., <span class="math inline">\(Ix_m^*\)</span> is a mirrored copy of <span class="math inline">\(Ix_m\)</span>). Colors follow a consistent code throughout: blue for data input, violet for Multiplier A output, green for Crossbar B output, and orange for the final output of Multiplier C.</p>
+<p><strong>Step 1 — Multiplier A:</strong> <span class="math inline">\(\mathbf{a}^{[e]} = \mathbf{x} \odot \mathbf{h}^{[e]}\)</span></p>
+<p>The input <span class="math inline">\(\mathbf{x}\)</span> is encoded as a vector of currents <span class="math inline">\(Ix_m\)</span>, which flow through memristors programmed to the values of <span class="math inline">\(\mathbf{h}^{[e]}\)</span>. By Ohm’s law, the resulting voltage drops across the memristors give the element-wise product <span class="math inline">\(\mathbf{a}^{[e]}\)</span>.</p>
+<p><strong>Step 2 — Crossbar B:</strong> <span class="math inline">\(\mathbf{b}^{[e]} = \mathbf{\hat S} \bullet \mathbf{a}^{[e]}\)</span></p>
+<p>The voltages <span class="math inline">\(\mathbf{a}^{[e]}\)</span> from Step 1 are applied to the columns of the crossbar, which is programmed with the shared matrix <span class="math inline">\(\mathbf{\hat S}\)</span>. <span class="math inline">\(\mathbf{\hat S}\)</span> is used intead of <span class="math inline">\(\mathbf{S}\)</span> because the values of the shared matrix is encode as conductance or the inverse of resitance. More precisely, for each entry <span class="math inline">\(s_{i,j}\)</span>, the encoded value will be <span class="math inline">\(\hat s_{i,j} = 1 / s_{i,j}\)</span>. Row currents accumulate to produce the matrix-vector product <span class="math inline">\(\mathbf{b}^{[e]}\)</span>.</p>
+<p><strong>Step 3 — Multiplier C:</strong> <span class="math inline">\(\mathbf{y}^{[e]} = \mathbf{b}^{[e]} \odot \mathbf{t}^{[e]}\)</span></p>
+<p>The currents <span class="math inline">\(\mathbf{b}^{[e]}\)</span> from Step 2 flow through memristors programmed to <span class="math inline">\(\mathbf{t}^{[e]}\)</span>, and the resulting voltage drops give the final member output <span class="math inline">\(\mathbf{y}^{[e]}\)</span>.</p>
+<p>A selector line <span class="math inline">\(Vl^{[e]}\)</span> activates one ensemble member at a time. Cycling through <span class="math inline">\(e = 1, \ldots, E\)</span> sequentially produces the output for each member.</p>
+</section>
+<section id="circuit-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="circuit-implementation">Circuit implementation</h4>
+<p>The three stages are summarized in the figure below. Multiplier A and Multiplier C are the novel <strong>MemHaM</strong> blocks; Crossbar B is a standard memristor crossbar adapted with two circuit tweaks to handle the voltage and current handoff between stages correctly.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/memham1-summary.png" class="img-fluid figure-img"></p>
+<figcaption>Summary of analog memristor circuit for BatchEnsemble. Input and output for each block are color-coded to help with visualization. Multiplier A ingests input data as current Ix, and produces voltage Va as output. These voltages are chained to Crossbar B as input, which in turn produces current Ib as output. These currents are injected as input to Multiplier C, which produces the final result as voltages Vy. The voltage selector lines (<span class="math inline">\(Vl^{[1]}, ..., Vl^{[E]}\)</span>) are the same throughout the whole circuit.</figcaption>
+</figure>
+</div>
+<p><strong>Multiplier A</strong> is an array of <span class="math inline">\(E\)</span> rows × <span class="math inline">\(M\)</span> columns of memristors, where each row stores one member’s vector <span class="math inline">\(\mathbf{h}^{[e]}\)</span>. When selector line <span class="math inline">\(Vl^{[e]}\)</span> is activated, input currents <span class="math inline">\(Ix_m^*\)</span> are routed through that row, producing voltage drops <span class="math inline">\(Va_m = Vtop - Ix_m^* \times h_m^{[e]}\)</span> at each column.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/multiplier1a.png" class="img-fluid figure-img"></p>
+<figcaption>Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line Vl will direct the input current to the corresponding row. Vl runs through all transistor gates in a row. There are E rows and M columns in this array.</figcaption>
+</figure>
+</div>
+<p><strong>Crossbar B</strong> receives the Multiplier A output voltages via Op-Amp voltage followers (<span class="math inline">\(Abot\)</span>) at the bottom of each column. A reference voltage <span class="math inline">\(Vtop\)</span> is simultaneously held at the top of each row via current conveyors (<span class="math inline">\(Atop\)</span>), each of which combines a voltage follower and a current mirror. The voltage difference across each memristor drives a row current <span class="math inline">\(Ib_n = \sum_m s_{n,m}^{-1}(Vtop^* - Va_m^*)\)</span>. Notably, unlike a standard crossbar where branch currents converge, here they diverge.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/xbar1b.png" class="img-fluid figure-img"></p>
+<figcaption>Crossbar B with voltage followers <span class="math inline">\(Abot\)</span> and current conveyors, containing voltage followers <span class="math inline">\(Atop\)</span> coupled with current mirrors. The current conveyors maintain the voltage at Vtop, while mirroring the summing current flowing through each row of the crossbar. The voltage followers regulate the voltage at Va, and act as current sinks. Output voltages from previous stage Multiplier A, colored in violet, serve as input to the voltage followers. The resulting mirrored currents Ib are colored in green. The transistor labels are omitted to simplify the schematic drawing, they serve as selector devices when programming the array.</figcaption>
+</figure>
+</div>
+<p><strong>Multiplier C</strong> is symmetric to Multiplier A: the mirrored currents <span class="math inline">\(Ib_n^*\)</span> from Crossbar B flow through memristors programmed to <span class="math inline">\(\mathbf{t}^{[e]}\)</span>, and the voltage drops give the final output <span class="math inline">\(Vy_n = Ib_n^* \times t_n^{[e]}\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/multiplier1c.png" class="img-fluid figure-img"></p>
+<figcaption>Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines Vl are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.</figcaption>
+</figure>
+</div>
+<p>An important efficiency note: since a single-model crossbar already requires voltage regulation on all its columns and rows, <strong>the total Op-Amp count of the full MemHaM circuit equals that of a single-model crossbar</strong>. In contrast, an ensemble circuit of size <span class="math inline">\(E\)</span> would increase the number of Op-Amp by <span class="math inline">\(E\)</span>.</p>
+</section>
+</section>
+<section id="circuit-design-for-ensemble-with-low-rank-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="circuit-design-for-ensemble-with-low-rank-approximation">Circuit design for ensemble with low-rank approximation</h3>
+<p>Extending to approximation rank <span class="math inline">\(R &gt; 1\)</span> is conceptually straightforward. The rank-1 vectors <span class="math inline">\(\mathbf{t}^{[e]}, \mathbf{h}^{[e]}\)</span> are replaced by low-rank matrices <span class="math inline">\(\mathbf{T}^{[e]} \in \mathbb{R}^{N \times R}\)</span> and <span class="math inline">\(\mathbf{H}^{[e]} \in \mathbb{R}^{R \times M}\)</span>, and the computation becomes a sum over the rank dimension (more details in appendix):</p>
+<p><span class="math display">\[\begin{align*}
+    \mathbf y^{[e]} = \sum^R_{r=1} [\mathbf S \bullet (\mathbf x \odot \mathbf h^{[e]}_{r,:}) ] \odot \mathbf t^{[e]}_{:,r}
+\end{align*}\]</span></p>
+<p>The three-stage pipeline applies <strong>identically inside each rank iteration</strong> <span class="math inline">\(r\)</span>. The adaptations to the circuit are minimal but targeted:</p>
+<ol type="1">
+<li>Multipliers A and C each gain <span class="math inline">\(R\)</span> rows per ensemble-member segment. one row per rank index. Each segment now encodes a full matrix for each ensemble member, rather than a single vector.</li>
+<li>The selector lines become two-level: <span class="math inline">\(Vl^{[e,r]}\)</span> first selects member segment <span class="math inline">\(e\)</span>, then activates row <span class="math inline">\(r\)</span> within that segment, selecting the appropriate row of <span class="math inline">\(\mathbf{H}^{[e]}\)</span> and column of <span class="math inline">\(\mathbf{T}^{[e]}\)</span>.</li>
+<li>An <strong>Accumulator</strong> collects the Multiplier C output at each rank step, summing across <span class="math inline">\(r = 1, \ldots, R\)</span> before storing the final result for member <span class="math inline">\(e\)</span>.</li>
+</ol>
+<p>The figures below show the full circuit overview and the detail of one expanded ensemble-member segment.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham/memham-diagram.png" class="img-fluid figure-img"></p>
+<figcaption>Overview of circuit implementation, with computation flowing from left to right. In Multiplier A and C, dashed horizontal lines delimit ensemble member segment. Solid horizontal lines delimit rows of <span class="math inline">\(\mathbf H^{[e]}\)</span> or column of <span class="math inline">\(\mathbf T^{[e]}\)</span> inside the segment. A segment delimited by dashed horizontal lines is depicted in details in the summary figure. Matrix <span class="math inline">\(\mathbf S\)</span> in Crossbar B is not fully depicted to simplify visualization.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham/memham-summary.png" class="img-fluid figure-img"></p>
+<figcaption>Summary of the 3 circuit blocks. Input and output for each block are color-coded to help with visualization: blue for data input, violet for Multiplier A, green for Crossbar B, orange for Multiplier C. Multiplier A ingests input data as current Ix, and produces voltage Va as output. These voltages are chained to Crossbar B as input, which in turn produces current Ib as output. These currents are injected as input to Multiplier C, which produces the final result as voltages Vy. The voltage selector lines (<span class="math inline">\(Vr^1, ..., Vr^e\)</span>) are the same throughout the whole circuit. Each Memristor array in Multipliers A and C represents one segment at index <span class="math inline">\(e\)</span> from the previous figure (delimited by horizontal dashed line in that figure). The principle is similar to the rank-1 circuit, but now each segment contains <span class="math inline">\(R\)</span> rows instead of 1 row.</figcaption>
+</figure>
+</div>
+<p>The internal design of each block remains the same as in the rank-1 case; only the height of the memristor arrays in Multipliers A and C grows by a factor of <span class="math inline">\(R\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham/multipliera.png" class="img-fluid figure-img"></p>
+<figcaption>Multiplier A with input current Ix colored in blue. Output voltage Va is colored in violet. Va run through all transistor sources in a column. Activating a selector voltage line <span class="math inline">\(Vl^{[e,r]}\)</span> will direct the input current to the corresponding row. <span class="math inline">\(Vl^{[e,r]}\)</span> runs through all transistor gates in a row. There are R rows and M columns in this matrix, corresponding to 1 segment. There are <span class="math inline">\(E\)</span> segments in total, one per ensemble member.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham/xbarb.png" class="img-fluid figure-img"></p>
+<figcaption>Crossbar B with voltage followers <span class="math inline">\(Abot\)</span> and current conveyors, containing voltage followers <span class="math inline">\(Atop\)</span> coupled with current mirrors. The current conveyors maintain the voltage at Vtop, while mirroring the summing current flowing through each row of the crossbar. The voltage followers regulate the voltage at Va, and act as current sinks. Output voltages from previous stage Multiplier A, colored in violet, serve as input to the voltage followers. The resulting mirrored currents Ib are colored in green. The transistors have not been labelled to simplify the schematic, they serve as selector devices when programming the array.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham/multiplierc.png" class="img-fluid figure-img"></p>
+<figcaption>Multiplier C with input currents Ib colored in green and final output voltages Vy colored in orange. The selector lines <span class="math inline">\(Vl^{[e,r]}\)</span> are the same signals as in Multiplier A. Activating one selector voltage will direct the current to the corresponding line. We can retrieve the final result vector by reading voltages Vy.</figcaption>
+</figure>
+</div>
+<section id="usage-procedure-pseudocode" class="level4">
+<h4 class="anchored" data-anchor-id="usage-procedure-pseudocode">Usage procedure pseudocode</h4>
+<div style="padding: 20px; border: 1px solid #cccccc; border-left: 8px solid #455A64; background-color: #fcfcfc; line-height: 1.6;">
+<p><strong>Algorithm: Usage Procedure for Memristor Hadamard Multiplier</strong></p>
+<hr>
+<p><strong>For each ensemble member <span class="math inline">\(e = 1, \dots, E\)</span>:</strong></p>
+<ol type="1">
+<li><p><strong>Iterate through approximation ranks:</strong> For each rank <span class="math inline">\(r = 1, \dots, R\)</span>:</p>
+<ul>
+<li><strong>Voltage Selection:</strong> Activate the specific voltage selector line <span class="math inline">\(Vl^{[e,r]}\)</span> corresponding to the current member and rank.</li>
+<li><strong>Current Injection:</strong> Inject input currents <span class="math inline">\(Ix_1, \dots, Ix_M\)</span> into the memristor circuit.</li>
+<li><strong>Accumulation:</strong> Feed the resulting output voltages <span class="math inline">\(Vy^{[e,r]}_1, \dots, Vy^{[e,r]}_N\)</span> into the hardware Accumulator.</li>
+</ul></li>
+<li><p><strong>Result Retrieval:</strong> Read and store the <span class="math inline">\(N\)</span> components from the Accumulator output as the final result vector <span class="math inline">\(\mathbf{y}^{[e]}\)</span> for the ensemble member.</p></li>
+<li><p><strong>Reset:</strong> Reset the Accumulator to <span class="math inline">\(0\)</span> before proceeding to the next ensemble member.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="circuit-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="circuit-simulation">Circuit simulation</h3>
+</section>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<p>We validate the circuit with Monte Carlo SPICE simulations in a 130nm CMOS technology, using 1.2V logic transistors and 1.8V selector transistors for the memristors. A single circuit instance (<span class="math inline">\(M = N = E = 16\)</span>, so all three blocks are <span class="math inline">\(16 \times 16\)</span> matrices) is simulated over 32 independent runs.</p>
+<ul>
+<li><strong>Input currents</strong> <span class="math inline">\(Ix\)</span>: sampled uniformly between 50 nA and 150 nA, then held constant across all runs.</li>
+<li><strong>Memristor resistances</strong> in all three stages: sampled uniformly between 500 kΩ and 1.5 MΩ. This range keeps voltage drops across individual memristors at a few hundred mV — the threshold beyond which unintended programming can occur.</li>
+<li>Crossbar B output currents are scaled down by 10× using the transistor width ratio of the current mirror, so that resistance ranges remain consistent across all three stages.</li>
+<li>Op-Amps use an ideal model with gain 100; current mirrors use a 2-level cascoded topology to minimize copying error.</li>
+<li>Each selector pulse width is 3 μs (rise/fall 1 μs), giving a total of <strong>5 μs per ensemble member</strong>.</li>
+</ul>
+<section id="simulation-result" class="level4">
+<h4 class="anchored" data-anchor-id="simulation-result">Simulation result</h4>
+<p>The waveform below confirms basic circuit functionality. As selector lines <span class="math inline">\(Vl^{[e]}\)</span> are pulsed one by one, the first output component <span class="math inline">\(Vy_1^{[e]}\)</span> takes a distinct value for each ensemble member — reflecting the different resistance values programmed for each member.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/waveform.png" class="img-fluid figure-img"></p>
+<figcaption>After activating a voltage selector line, we can read out the output voltage signal corresponding to the selected model sample. Note the voltage of the selector line is 1.8V because because this is the nominal voltage of the selector transistors. Top: 16 selector voltage lines <span class="math inline">\(Vl^{[e]}\)</span> as consecutive single pulse signal. A selector line is set to high voltage 1.8V during a sufficient duration. Then it is set to 0, while the next selector line is set to high. Bottom: first component of output vector <span class="math inline">\(Vy^{[e]}_1\)</span> varies depending on the activated selector line. The high voltage 1.2V is the resting level voltage when no computation is currently performed. This high voltage levels matches the rise and fall time while switching the selector lines</figcaption>
+</figure>
+</div>
+<p>The violin plots below report the error ratio (observed / ideal) at five key circuit nodes, each marginalized over all 32 Monte Carlo runs and all 16 matrix columns or rows.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/memham1/error_violin_plot.png" class="img-fluid figure-img"></p>
+<figcaption>Error as ratio of (observed / target) value for essential nodes as violin plots. Ideal implementation will have this error ratio = 1, represented by the horizontal dashed red line. The middle point of each box plot inside each violin plot is the median. The boxes extend to the 1st and 3rd quartiles. The whiskers extend to the most extreme data points not considered outliers. The kernel density estimation (KDE) curve outlines the distribution shape of the data. The color code is the same as in other circuit diagrams (blue for input, violet for output of Multiplier A, green for output of Crossbar B, orange for final output of Multiplier C).</figcaption>
+</figure>
+</div>
+<p><strong>Node <span class="math inline">\(Ix^*\)</span> — input mirror:</strong> Error falls mostly within ±20%, though extreme cases can reach ±80%. Current mirrors are the dominant source of error throughout the pipeline, and their imprecision propagates downstream.</p>
+<p><strong>Node <span class="math inline">\((Vtop^* - Va^*)\)</span> — crossbar input voltage:</strong> Despite the large spread at <span class="math inline">\(Ix^*\)</span>, error variance barely grows at this node. The voltage followers for <span class="math inline">\(Vtop\)</span> and <span class="math inline">\(Va\)</span> each introduce a systematic negative offset of roughly 4–5 mV; since <span class="math inline">\(Va^*\)</span> is <em>subtracted</em> from <span class="math inline">\(Vtop^*\)</span>, the two offsets mostly cancel, leaving a combined error of approximately 1 mV — negligible against the hundred-millivolt operating voltages.</p>
+<p><strong>Node <span class="math inline">\(Ib\)</span> — crossbar output current:</strong> Surprisingly, error variance drops dramatically here. Each row output is a dot product summing <span class="math inline">\(M\)</span> terms, and with high-resistance memristors (MΩ range), the variance of each individual term is divided by <span class="math inline">\(s_{n,m}^2\)</span> — a massive attenuation. Formally, when memristor resistances are fixed: <span class="math inline">\(Var[b_n] = \sum_m s_{n,m}^{-2} \, Var[a_m]\)</span>. High resistance values thus act as a built-in variance reducer, an elegant side effect of the high-resistance operating point.</p>
+<p><strong>Node <span class="math inline">\(Ib^*\)</span> — mirrored crossbar output:</strong> Variance rises again here due to the second current mirror. A small negative bias is also introduced because the 10× down-scaling mirror is imperfect in practice.</p>
+<p><strong>Node <span class="math inline">\(Vy\)</span> — final output:</strong> Error tracks <span class="math inline">\(Ib^*\)</span> closely, since Multiplier C contributes only a multiplicative factor from its resistance values.</p>
+<p>The highest-leverage improvement is a better current mirror design — for example, through higher-order cascoding or regulated-cascode topologies. Beyond that, deliberately pairing low-resistance memristor technologies (such as OxRAM) for Multipliers A and C with high-resistance technologies (such as PCM) for Crossbar B would further exploit the variance-attenuation effect. In the longer term, embracing memristor variability within a Bayesian inference framework — where programming noise becomes an intentional source of stochasticity rather than an error — offers an ambitious but compelling direction. In-depth analysis and discussion can be found in the appendix.</p>
+</section>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This work introduces the <strong>Memristor Hadamard Multiplier (MemHaM)</strong> — a novel analog in-memory circuit that implements vector-vector element-wise multiplication, the missing primitive needed to run ALoRE on memristor hardware. By chaining two MemHaM blocks with a standard memristor crossbar in a three-stage pipeline, the full rank-1 and low-rank ensemble inference becomes executable entirely in memory, simultaneously achieving <strong>memory efficiency</strong> through low-rank approximation and <strong>energy efficiency</strong> through analog in-memory computation.</p>
+<p>Monte Carlo SPICE simulations confirm the circuit’s correctness and offer several design insights: current mirrors are the dominant error bottleneck, while the crossbar stage itself acts as a natural variance attenuator thanks to its high-resistance operating point. These findings translate directly into actionable improvements — better current mirror topologies, technology-matched memristors across stages, and ultimately the possibility of leveraging memristor programming noise as a physical source of Bayesian stochasticity.</p>
+<p>The natural next steps are fabricating a test chip for realistic energy, area, and latency characterization, and investigating efficient layer-to-layer signal chaining in a full multi-layer network. Each of these would move the hardware-software co-design loop — efficient probabilistic deep learning, running end-to-end in analog in-memory circuits — one step closer to becoming a practical reality.</p>
+</section>
+<section id="appendix" class="level2">
+<h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
+<p>See Chapter Memristor Hadamard Multiplier of this thesis (link available soon), or this article (<a href="memham.pdf">PDF</a>, <a href="https://ieeexplore.ieee.org/abstract/document/10937007/">IEEEExplore</a>).</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a id="ref1"></a> [1] Sara Hooker. The hardware lottery <a href="https://hardwarelottery.github.io/">https://hardwarelottery.github.io/</a> <a href="#cite_ref-1">↩︎</a></p>
+<p><a id="ref2"></a> [2] Jeffrey Dean. The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design <a href="https://arxiv.org/abs/1911.05289">https://arxiv.org/abs/1911.05289</a> <a href="#cite_ref-2">↩︎</a></p>
+<p><a id="ref3"></a> [3] M. Mitchell Waldrop. The chips are down for Moore’s law <a href="https://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338">https://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338</a> <a href="#cite_ref-3">↩︎</a></p>
+<p><a id="ref4"></a> [4] Norman P. Jouppi et al.&nbsp;In-Datacenter Performance Analysis of a Tensor Processing Unit. <a href="https://arxiv.org/abs/1704.04760">https://arxiv.org/abs/1704.04760</a> <a href="#cite_ref-4">↩︎</a></p>
+<p><a id="ref5"></a> [5] Geoffrey Hinton. The Forward-Forward Algorithm: Some Preliminary Investigations. Geoffrey Hinton <a href="https://arxiv.org/abs/2212.13345">https://arxiv.org/abs/2212.13345</a> <a href="#cite_ref-5">↩︎</a></p>
+<p><a id="ref6"></a> [6] Mark Horowitz. Computing’s Energy Problem and what we can do about it. <a href="https://gwern.net/doc/cs/hardware/2014-horowitz-2.pdf">https://gwern.net/doc/cs/hardware/2014-horowitz-2.pdf</a> <a href="#cite_ref-6">↩︎</a></p>
+<p><a id="ref7"></a> [7] In-memory computing with resistive switching devices. <a href="https://www.semanticscholar.org/paper/In-memory-computing-with-resistive-switching-Ielmini-Wong/6b850c5f80cabf2796b77a7ebb9823232b80d4f7">https://www.semanticscholar.org/paper/In-memory-computing-with-resistive-switching-Ielmini-Wong/6b850c5f80cabf2796b77a7ebb9823232b80d4f7</a> <a href="#cite_ref-7">↩︎</a></p>
+<p><a id="ref8"></a> [8] Xiaohe Huang et al.&nbsp;In-memory computing to break the memory wall. <a href="https://iopscience.iop.org/article/10.1088/1674-1056/ab90e7/meta?casa_token=zAzX8IV35sMAAAAA:uy0cdM4V4pa15S4IXYVyyon5zwVbdSJ_vCYQ55isuo1TOHIis1xw7UKnKbL3IQXlVSlJ5bKiDP1BvVkd6XgLeJ_MXSJf">https://iopscience.iop.org/article/10.1088/1674-1056/ab90e7</a> <a href="#cite_ref-8">↩︎</a></p>
+<p><a id="ref9"></a> [9] Thomas Dalgaty. Bayesian neuromorphic computing based on resistive memory. <a href="https://theses.hal.science/tel-03466542/">https://theses.hal.science/tel-03466542/</a> <a href="#cite_ref-9">↩︎</a></p>
+<p><a id="ref10"></a> [10] Yeming Wen et al.&nbsp;BatchEnsemble: An Alternative Approach to Efficient Ensemble and Lifelong Learning <a href="https://arxiv.org/abs/2002.06715">https://arxiv.org/abs/2002.06715</a> <a href="#cite_ref-10">↩︎</a></p>
+<p><a id="ref11"></a> [2] Dominik J. Mühlematter et al.&nbsp;<em>LoRA-Ensemble: Efficient Uncertainty Modelling for Self-Attention Networks.</em> <a href="http://arxiv.org/abs/2405.14438">arxiv.org/abs/2405.14438</a> <a href="#cite_ref-11">↩︎</a></p>
 
 
+</section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@inproceedings{anh_vu2026,
+  author = {Anh Vu, Phan and Rummens, François and Malfante, Marielle
+    and Rivet, Bertrand and Dalgaty, Thomas},
+  title = {Compressed Vector-Matrix Multiplication for {Memristor-based}
+    Ensemble Neural Networks},
+  booktitle = {International Conference on Rebooting Computing},
+  date = {2026-05-13},
+  url = {https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-anh_vu2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Anh Vu, Phan, François Rummens, Marielle Malfante, Bertrand Rivet, and
+Thomas Dalgaty. 2026. <span>“Compressed Vector-Matrix Multiplication for
+Memristor-Based Ensemble Neural Networks.”</span> <em>International
+Conference on Rebooting Computing</em>, accepted, May 13. <a href="https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html">https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
