@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Phan Anh">
-<meta name="dcterms.date" content="2026-05-13">
+<meta name="author" content="Phan-Anh Vu">
+<meta name="dcterms.date" content="2024-12-16">
 
 <title>MemHaM: Memristor Hadamard Multiplier and analog in-memory implementation of Adaptive Low-Rank Ensemble – Phan Anh’s website</title>
 <style>
@@ -109,15 +109,15 @@ window.Quarto = {
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="citation_title" content="Compressed vector-matrix multiplication for Memristor-based ensemble neural networks">
-<meta name="citation_author" content="Phan Anh Vu">
+<meta name="citation_author" content="Phan-Anh Vu">
 <meta name="citation_author" content="François Rummens">
 <meta name="citation_author" content="Marielle Malfante">
 <meta name="citation_author" content="Bertrand Rivet">
 <meta name="citation_author" content="Thomas Dalgaty">
-<meta name="citation_publication_date" content="2026-05-13">
-<meta name="citation_cover_date" content="2026-05-13">
-<meta name="citation_year" content="2026">
-<meta name="citation_online_date" content="2025-03-27">
+<meta name="citation_publication_date" content="2024-12-16">
+<meta name="citation_cover_date" content="2024-12-16">
+<meta name="citation_year" content="2024">
+<meta name="citation_online_date" content="2024-12-16">
 <meta name="citation_fulltext_html_url" content="https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html">
 <meta name="citation_pdf_url" content="memham.pdf">
 <meta name="citation_language" content="en">
@@ -342,14 +342,14 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Phan Anh </p>
+               <p>Phan-Anh Vu </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 13, 2026</p>
+        <p class="date">December 16, 2024</p>
       </div>
     </div>
     
@@ -374,6 +374,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#method-circuit-design-for-ensemble-with-rank-1-approximation" id="toc-method-circuit-design-for-ensemble-with-rank-1-approximation" class="nav-link" data-scroll-target="#method-circuit-design-for-ensemble-with-rank-1-approximation">Method: Circuit design for Ensemble with rank-1 approximation</a></li>
   <li><a href="#method-circuit-design-for-ensemble-with-low-rank-approximation" id="toc-method-circuit-design-for-ensemble-with-low-rank-approximation" class="nav-link" data-scroll-target="#method-circuit-design-for-ensemble-with-low-rank-approximation">Method: Circuit design for ensemble with low-rank approximation</a></li>
+  </ul></li>
+  <li><a href="#algorithm-usage-procedure-for-memristor-hadamard-multiplier" id="toc-algorithm-usage-procedure-for-memristor-hadamard-multiplier" class="nav-link" data-scroll-target="#algorithm-usage-procedure-for-memristor-hadamard-multiplier"><strong>Algorithm: Usage Procedure for Memristor Hadamard Multiplier</strong></a>
+  <ul class="collapse">
   <li><a href="#experiment-circuit-simulation" id="toc-experiment-circuit-simulation" class="nav-link" data-scroll-target="#experiment-circuit-simulation">Experiment: Circuit simulation</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -484,11 +487,11 @@ window.Quarto = {
 <section id="mapping-computation-to-hardware" class="level4">
 <h4 class="anchored" data-anchor-id="mapping-computation-to-hardware">Mapping computation to hardware</h4>
 <p>This rearranged equation maps naturally to a <strong>three-stage pipeline</strong>, where each stage is responsible for one type of operation. Before describing the stages, here is the notation used in the circuit diagrams. The prefix <code>I</code> denotes a current and <code>V</code> denotes a voltage; for example, <span class="math inline">\(Ix_m\)</span> is the <span class="math inline">\(m\)</span>-th component of input vector <span class="math inline">\(\mathbf{x}\)</span> encoded as a current. A superscript <span class="math inline">\(^*\)</span> denotes an analog copy of a signal (e.g., <span class="math inline">\(Ix_m^*\)</span> is a mirrored copy of <span class="math inline">\(Ix_m\)</span>). Colors follow a consistent code throughout: blue for data input, violet for Multiplier A output, green for Crossbar B output, and orange for the final output of Multiplier C.</p>
-<p><strong>Step 1 — Multiplier A:</strong> <span class="math inline">\(\mathbf{a}^{[e]} = \mathbf{x} \odot \mathbf{h}^{[e]}\)</span></p>
+<p><strong>Step 1 &amp; Multiplier A:</strong> <span class="math inline">\(\mathbf{a}^{[e]} = \mathbf{x} \odot \mathbf{h}^{[e]}\)</span></p>
 <p>The input <span class="math inline">\(\mathbf{x}\)</span> is encoded as a vector of currents <span class="math inline">\(Ix_m\)</span>, which flow through memristors programmed to the values of <span class="math inline">\(\mathbf{h}^{[e]}\)</span>. By Ohm’s law, the resulting voltage drops across the memristors give the element-wise product <span class="math inline">\(\mathbf{a}^{[e]}\)</span>.</p>
-<p><strong>Step 2 — Crossbar B:</strong> <span class="math inline">\(\mathbf{b}^{[e]} = \mathbf{\hat S} \bullet \mathbf{a}^{[e]}\)</span></p>
+<p><strong>Step 2 &amp; Crossbar B:</strong> <span class="math inline">\(\mathbf{b}^{[e]} = \mathbf{\hat S} \bullet \mathbf{a}^{[e]}\)</span></p>
 <p>The voltages <span class="math inline">\(\mathbf{a}^{[e]}\)</span> from Step 1 are applied to the columns of the crossbar, which is programmed with the shared matrix <span class="math inline">\(\mathbf{\hat S}\)</span>. <span class="math inline">\(\mathbf{\hat S}\)</span> is used intead of <span class="math inline">\(\mathbf{S}\)</span> because the values of the shared matrix is encode as conductance or the inverse of resitance. More precisely, for each entry <span class="math inline">\(s_{i,j}\)</span>, the encoded value will be <span class="math inline">\(\hat s_{i,j} = 1 / s_{i,j}\)</span>. Row currents accumulate to produce the matrix-vector product <span class="math inline">\(\mathbf{b}^{[e]}\)</span>.</p>
-<p><strong>Step 3 — Multiplier C:</strong> <span class="math inline">\(\mathbf{y}^{[e]} = \mathbf{b}^{[e]} \odot \mathbf{t}^{[e]}\)</span></p>
+<p><strong>Step 3 &amp; Multiplier C:</strong> <span class="math inline">\(\mathbf{y}^{[e]} = \mathbf{b}^{[e]} \odot \mathbf{t}^{[e]}\)</span></p>
 <p>The currents <span class="math inline">\(\mathbf{b}^{[e]}\)</span> from Step 2 flow through memristors programmed to <span class="math inline">\(\mathbf{t}^{[e]}\)</span>, and the resulting voltage drops give the final member output <span class="math inline">\(\mathbf{y}^{[e]}\)</span>.</p>
 <p>A selector line <span class="math inline">\(Vl^{[e]}\)</span> activates one ensemble member at a time. Cycling through <span class="math inline">\(e = 1, \ldots, E\)</span> sequentially produces the output for each member.</p>
 </section>
@@ -571,9 +574,11 @@ window.Quarto = {
 </div>
 <section id="usage-procedure-pseudocode" class="level4">
 <h4 class="anchored" data-anchor-id="usage-procedure-pseudocode">Usage procedure pseudocode</h4>
-<div style="padding: 20px; border: 1px solid #cccccc; border-left: 8px solid #455A64; background-color: #fcfcfc; line-height: 1.6;">
-<p><strong>Algorithm: Usage Procedure for Memristor Hadamard Multiplier</strong></p>
-<hr>
+</section>
+</section>
+</section>
+<section id="algorithm-usage-procedure-for-memristor-hadamard-multiplier" class="level2">
+<h2 class="anchored" data-anchor-id="algorithm-usage-procedure-for-memristor-hadamard-multiplier"><strong>Algorithm: Usage Procedure for Memristor Hadamard Multiplier</strong></h2>
 <p><strong>For each ensemble member <span class="math inline">\(e = 1, \dots, E\)</span>:</strong></p>
 <ol type="1">
 <li><p><strong>Iterate through approximation ranks:</strong> For each rank <span class="math inline">\(r = 1, \dots, R\)</span>:</p>
@@ -585,9 +590,7 @@ window.Quarto = {
 <li><p><strong>Result Retrieval:</strong> Read and store the <span class="math inline">\(N\)</span> components from the Accumulator output as the final result vector <span class="math inline">\(\mathbf{y}^{[e]}\)</span> for the ensemble member.</p></li>
 <li><p><strong>Reset:</strong> Reset the Accumulator to <span class="math inline">\(0\)</span> before proceeding to the next ensemble member.</p></li>
 </ol>
-</div>
-</section>
-</section>
+<hr>
 <section id="experiment-circuit-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="experiment-circuit-simulation">Experiment: Circuit simulation</h3>
 <section id="setup" class="level4">
@@ -595,7 +598,7 @@ window.Quarto = {
 <p>We validate the circuit with Monte Carlo SPICE simulations in a 130nm CMOS technology, using 1.2V logic transistors and 1.8V selector transistors for the memristors. A single circuit instance (<span class="math inline">\(M = N = E = 16\)</span>, so all three blocks are <span class="math inline">\(16 \times 16\)</span> matrices) is simulated over 32 independent runs.</p>
 <ul>
 <li><strong>Input currents</strong> <span class="math inline">\(Ix\)</span>: sampled uniformly between 50 nA and 150 nA, then held constant across all runs.</li>
-<li><strong>Memristor resistances</strong> in all three stages: sampled uniformly between 500 kΩ and 1.5 MΩ. This range keeps voltage drops across individual memristors at a few hundred mV — the threshold beyond which unintended programming can occur.</li>
+<li><strong>Memristor resistances</strong> in all three stages: sampled uniformly between 500 kΩ and 1.5 MΩ. This range keeps voltage drops across individual memristors at a few hundred mV, the threshold beyond which unintended programming can occur.</li>
 <li>Crossbar B output currents are scaled down by 10× using the transistor width ratio of the current mirror, so that resistance ranges remain consistent across all three stages.</li>
 <li>Op-Amps use an ideal model with gain 100; current mirrors use a 2-level cascoded topology to minimize copying error.</li>
 <li>Each selector pulse width is 3 μs (rise/fall 1 μs), giving a total of <strong>5 μs per ensemble member</strong>.</li>
@@ -603,7 +606,7 @@ window.Quarto = {
 </section>
 <section id="simulation-result" class="level4">
 <h4 class="anchored" data-anchor-id="simulation-result">Simulation result</h4>
-<p>The waveform below confirms basic circuit functionality. As selector lines <span class="math inline">\(Vl^{[e]}\)</span> are pulsed one by one, the first output component <span class="math inline">\(Vy_1^{[e]}\)</span> takes a distinct value for each ensemble member — reflecting the different resistance values programmed for each member.</p>
+<p>The waveform below confirms basic circuit functionality. As selector lines <span class="math inline">\(Vl^{[e]}\)</span> are pulsed one by one, the first output component <span class="math inline">\(Vy_1^{[e]}\)</span> takes a distinct value for each ensemble member, reflecting the different resistance values programmed for each member.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/memham1/waveform.png" class="img-fluid figure-img"></p>
@@ -613,24 +616,24 @@ window.Quarto = {
 <p>The violin plots below report the error ratio (observed / ideal) at five key circuit nodes, each marginalized over all 32 Monte Carlo runs and all 16 matrix columns or rows.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/memham1/error_violin_plot.png" class="img-fluid figure-img"></p>
+<p><img src="img/memham1/error_violin_plot.png" class="img-fluid figure-img" style="width:50.0%"></p>
 <figcaption>Error as ratio of (observed / target) value for essential nodes as violin plots. Ideal implementation will have this error ratio = 1, represented by the horizontal dashed red line. The middle point of each box plot inside each violin plot is the median. The boxes extend to the 1st and 3rd quartiles. The whiskers extend to the most extreme data points not considered outliers. The kernel density estimation (KDE) curve outlines the distribution shape of the data. The color code is the same as in other circuit diagrams (blue for input, violet for output of Multiplier A, green for output of Crossbar B, orange for final output of Multiplier C).</figcaption>
 </figure>
 </div>
-<p><strong>Node <span class="math inline">\(Ix^*\)</span> — input mirror:</strong> Error falls mostly within ±20%, though extreme cases can reach ±80%. Current mirrors are the dominant source of error throughout the pipeline, and their imprecision propagates downstream.</p>
-<p><strong>Node <span class="math inline">\((Vtop^* - Va^*)\)</span> — crossbar input voltage:</strong> Despite the large spread at <span class="math inline">\(Ix^*\)</span>, error variance barely grows at this node. The voltage followers for <span class="math inline">\(Vtop\)</span> and <span class="math inline">\(Va\)</span> each introduce a systematic negative offset of roughly 4–5 mV; since <span class="math inline">\(Va^*\)</span> is <em>subtracted</em> from <span class="math inline">\(Vtop^*\)</span>, the two offsets mostly cancel, leaving a combined error of approximately 1 mV — negligible against the hundred-millivolt operating voltages.</p>
-<p><strong>Node <span class="math inline">\(Ib\)</span> — crossbar output current:</strong> Surprisingly, error variance drops dramatically here. Each row output is a dot product summing <span class="math inline">\(M\)</span> terms, and with high-resistance memristors (MΩ range), the variance of each individual term is divided by <span class="math inline">\(s_{n,m}^2\)</span> — a massive attenuation. Formally, when memristor resistances are fixed: <span class="math inline">\(Var[b_n] = \sum_m s_{n,m}^{-2} \, Var[a_m]\)</span>. High resistance values thus act as a built-in variance reducer, an elegant side effect of the high-resistance operating point.</p>
-<p><strong>Node <span class="math inline">\(Ib^*\)</span> — mirrored crossbar output:</strong> Variance rises again here due to the second current mirror. A small negative bias is also introduced because the 10× down-scaling mirror is imperfect in practice.</p>
-<p><strong>Node <span class="math inline">\(Vy\)</span> — final output:</strong> Error tracks <span class="math inline">\(Ib^*\)</span> closely, since Multiplier C contributes only a multiplicative factor from its resistance values.</p>
-<p>The highest-leverage improvement is a better current mirror design — for example, through higher-order cascoding or regulated-cascode topologies. Beyond that, deliberately pairing low-resistance memristor technologies (such as OxRAM) for Multipliers A and C with high-resistance technologies (such as PCM) for Crossbar B would further exploit the variance-attenuation effect. In the longer term, embracing memristor variability within a Bayesian inference framework — where programming noise becomes an intentional source of stochasticity rather than an error — offers an ambitious but compelling direction. In-depth analysis and discussion can be found in the appendix.</p>
+<p><strong>Node <span class="math inline">\(Ix^*\)</span>, input mirror:</strong> Error falls mostly within ±20%, though extreme cases can reach ±80%. Current mirrors are the dominant source of error throughout the pipeline, and their imprecision propagates downstream.</p>
+<p><strong>Node <span class="math inline">\((Vtop^* - Va^*)\)</span>, crossbar input voltage:</strong> Despite the large spread at <span class="math inline">\(Ix^*\)</span>, error variance barely grows at this node. The voltage followers for <span class="math inline">\(Vtop\)</span> and <span class="math inline">\(Va\)</span> each introduce a systematic negative offset of roughly 4–5 mV; since <span class="math inline">\(Va^*\)</span> is <em>subtracted</em> from <span class="math inline">\(Vtop^*\)</span>, the two offsets mostly cancel, leaving a combined error of approximately 1 mV, negligible against the hundred-millivolt operating voltages.</p>
+<p><strong>Node <span class="math inline">\(Ib\)</span>, crossbar output current:</strong> Surprisingly, error variance drops dramatically here. Each row output is a dot product summing <span class="math inline">\(M\)</span> terms, and with high-resistance memristors (MΩ range), the variance of each individual term is divided by <span class="math inline">\(s_{n,m}^2\)</span>, a massive attenuation. Formally, when memristor resistances are fixed: <span class="math inline">\(Var[b_n] = \sum_m s_{n,m}^{-2} \, Var[a_m]\)</span>. High resistance values thus act as a built-in variance reducer, an elegant side effect of the high-resistance operating point.</p>
+<p><strong>Node <span class="math inline">\(Ib^*\)</span>, mirrored crossbar output:</strong> Variance rises again here due to the second current mirror. A small negative bias is also introduced because the 10× down-scaling mirror is imperfect in practice.</p>
+<p><strong>Node <span class="math inline">\(Vy\)</span>, final output:</strong> Error tracks <span class="math inline">\(Ib^*\)</span> closely, since Multiplier C contributes only a multiplicative factor from its resistance values.</p>
+<p>The highest-leverage improvement is a better current mirror design, for example, through higher-order cascoding or regulated-cascode topologies. Beyond that, deliberately pairing low-resistance memristor technologies (such as OxRAM) for Multipliers A and C with high-resistance technologies (such as PCM) for Crossbar B would further exploit the variance-attenuation effect. In the longer term, embracing memristor variability within a Bayesian inference framework, where programming noise becomes an intentional source of stochasticity rather than an error, offers an ambitious but compelling direction. In-depth analysis and discussion can be found in the appendix.</p>
 </section>
 </section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>This work introduces the <strong>Memristor Hadamard Multiplier (MemHaM)</strong> — a novel analog in-memory circuit that implements vector-vector element-wise multiplication, the missing primitive needed to run ALoRE on memristor hardware. By chaining two MemHaM blocks with a standard memristor crossbar in a three-stage pipeline, the full rank-1 and low-rank ensemble inference becomes executable entirely in memory, simultaneously achieving <strong>memory efficiency</strong> through low-rank approximation and <strong>energy efficiency</strong> through analog in-memory computation.</p>
-<p>Monte Carlo SPICE simulations confirm the circuit’s correctness and offer several design insights: current mirrors are the dominant error bottleneck, while the crossbar stage itself acts as a natural variance attenuator thanks to its high-resistance operating point. These findings translate directly into actionable improvements — better current mirror topologies, technology-matched memristors across stages, and ultimately the possibility of leveraging memristor programming noise as a physical source of Bayesian stochasticity.</p>
-<p>The natural next steps are fabricating a test chip for realistic energy, area, and latency characterization, and investigating efficient layer-to-layer signal chaining in a full multi-layer network. Each of these would move the hardware-software co-design loop — efficient probabilistic deep learning, running end-to-end in analog in-memory circuits — one step closer to becoming a practical reality.</p>
+<p>This work introduces the <strong>Memristor Hadamard Multiplier (MemHaM)</strong>, a novel analog in-memory circuit that implements vector-vector element-wise multiplication, the missing primitive needed to run ALoRE on memristor hardware. By chaining two MemHaM blocks with a standard memristor crossbar in a three-stage pipeline, the full rank-1 and low-rank ensemble inference becomes executable entirely in memory, simultaneously achieving <strong>memory efficiency</strong> through low-rank approximation and <strong>energy efficiency</strong> through analog in-memory computation.</p>
+<p>Monte Carlo SPICE simulations confirm the circuit’s correctness and offer several design insights: current mirrors are the dominant error bottleneck, while the crossbar stage itself acts as a natural variance attenuator thanks to its high-resistance operating point. These findings translate directly into actionable improvements: better current mirror topologies, technology-matched memristors across stages, and ultimately the possibility of leveraging memristor programming noise as a physical source of Bayesian stochasticity.</p>
+<p>The natural next steps are fabricating a test chip for realistic energy, area, and latency characterization, and investigating efficient layer-to-layer signal chaining in a full multi-layer network. With this hardware-software co-design approach, efficient probabilistic deep learning running end-to-end in analog in-memory circuits is one step closer to becoming a practical reality.</p>
 </section>
 <section id="appendix" class="level2">
 <h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
@@ -653,21 +656,21 @@ window.Quarto = {
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@inproceedings{anh_vu2026,
-  author = {Anh Vu, Phan and Rummens, François and Malfante, Marielle
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@inproceedings{vu2024,
+  author = {Vu, Phan-Anh and Rummens, François and Malfante, Marielle
     and Rivet, Bertrand and Dalgaty, Thomas},
   title = {Compressed Vector-Matrix Multiplication for {Memristor-based}
     Ensemble Neural Networks},
   booktitle = {International Conference on Rebooting Computing},
-  date = {2026-05-13},
+  date = {2024-12-16},
   url = {https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-anh_vu2026" class="csl-entry quarto-appendix-citeas" role="listitem">
-Anh Vu, Phan, François Rummens, Marielle Malfante, Bertrand Rivet, and
-Thomas Dalgaty. 2026. <span>“Compressed Vector-Matrix Multiplication for
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vu2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+Vu, Phan-Anh, François Rummens, Marielle Malfante, Bertrand Rivet, and
+Thomas Dalgaty. 2024. <span>“Compressed Vector-Matrix Multiplication for
 Memristor-Based Ensemble Neural Networks.”</span> <em>International
-Conference on Rebooting Computing</em>, accepted, May 13. <a href="https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html">https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html</a>.
+Conference on Rebooting Computing</em>, accepted, December 16. <a href="https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html">https://phanav.github.io/posts/hardware/memristor_hadamard_multiplier.html</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
