@@ -11,6 +11,8 @@ website:
         href: https://github.com/phanav
       - icon: linkedin
         href: https://www.linkedin.com/in/phanav
+      - icon: mortarboard-fill
+        href: https://scholar.google.com/citations?user=ULsVXd0AAAAJ&hl=en        
 format:
   html:
     theme:

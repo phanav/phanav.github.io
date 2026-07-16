@@ -10,7 +10,9 @@ about:
     - icon: github
       text: Github
       href: https://github.com/phanav
-
+    - icon: mortarboard-fill
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=ULsVXd0AAAAJ&hl=en
 ---
 
 My name is Phan Anh Vu (Vũ).
@@ -20,7 +22,7 @@ I took a Software Engineer position for a few years.
 Most recently, I mainly work on Machine Learning. 
 More specifically, the research topic for my PhD is the intersection of probabilistic machine learning and chip design. 
 The goal is to accelerate uncertainty quantification algorithms with specialized and emerging hardware, both analog and digital. 
-Here are a few samples from my long list of hobbies: Hiphop dance, tennis, judo, boxing, piano, guitar.
+Here are a few samples from my long list of hobbies: Dance (hiphop, latin), Music (vocal, piano, guitar), tennis.
 
 Below is a probably outdated Curriculum Vitae
 

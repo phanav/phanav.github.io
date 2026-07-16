@@ -4,6 +4,7 @@ docs/
 
 **/*.quarto_ipynb
 drafts/
+blog_draft/
 
 # Quarto internal build artifacts
 .quarto/
@@ -13,3 +14,26 @@ _freeze/
 *.min.js
 *.min.css
 *_files/
+
+
+# Jupyter & Python cache dependencies (if left over from older posts)
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# ==============================================================================
+# Operating System & Environment Garbage
+# ==============================================================================
+
+# Linux / Fedora filesystem tracking metadata
+.directory
+.Trash-*
+
+# Mac / Windows clutter
+.DS_Store
+Thumbs.db
+
+# Local text editor workspaces
+.vscode/
+.idea/
+.project
